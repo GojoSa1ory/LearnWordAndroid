@@ -6,7 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.myapplication.data.Migrator
-import com.example.myapplication.data.dataSource.service.WordService
+import com.example.myapplication.data.service.WordService
 import com.example.myapplication.presentation.screen.games.GamesScreen
 import com.example.myapplication.presentation.screen.home.HomeScreen
 import com.example.myapplication.presentation.screen.home.HomeScreenBuilder

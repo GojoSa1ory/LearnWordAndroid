@@ -1,4 +1,4 @@
-package com.example.myapplication.data.dataSource.interfaces
+package com.example.myapplication.data.interfaces
 
 import com.example.myapplication.data.model.WordModel
 import com.example.myapplication.data.model.ServiceResponse

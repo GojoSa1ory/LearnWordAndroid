@@ -7,14 +7,6 @@ import com.example.myapplication.domain.repositories.WordRepository
 
 class WordUseCase(private val wordRep: WordRepository) {
 
-    fun create(item: WordEntity): ServiceResponse<String> {
-        return wordRep.create(item)
-    }
-
-    fun read(): ServiceResponse<List<WordEntity>> {
-        return wordRep.read()
-    }
-
     fun update(item: WordEntity): ServiceResponse<String> {
         TODO("Not yet implemented")
     }

@@ -1,6 +1,6 @@
 package com.example.myapplication.data.repositories
 
-import com.example.myapplication.data.dataSource.interfaces.IWordService
+import com.example.myapplication.data.interfaces.IWordService
 import com.example.myapplication.data.model.ServiceResponse
 import com.example.myapplication.domain.mapper.WordMapper
 import com.example.myapplication.domain.entities.WordEntity

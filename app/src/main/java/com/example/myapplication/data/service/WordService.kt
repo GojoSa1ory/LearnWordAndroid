@@ -1,10 +1,10 @@
-package com.example.myapplication.data.dataSource.service
+package com.example.myapplication.data.service
 
 import com.example.myapplication.data.Migrator
 import com.example.myapplication.data.model.WordModel
 import com.example.myapplication.data.model.ServiceResponse
 import com.example.myapplication.data.model.errors.DatabaseErrors
-import com.example.myapplication.data.dataSource.interfaces.IWordService
+import com.example.myapplication.data.interfaces.IWordService
 import io.realm.kotlin.Realm
 import io.realm.kotlin.ext.query
 
@@ -16,11 +16,7 @@ class WordService (val databaseManager: Migrator): IWordService {
 
     init {
         val cfg = Migrator().configureDatabase()
-
         realm = Realm.open(cfg)
-    }
-
-    init {
 //        this.createInitData()
     }
 
