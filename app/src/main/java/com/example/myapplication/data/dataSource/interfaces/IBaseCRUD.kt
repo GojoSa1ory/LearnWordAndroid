@@ -1,10 +1,8 @@
-package com.example.myapplication.domain.repositories
+package com.example.myapplication.data.dataSource.interfaces
 
-import com.example.myapplication.domain.entities.ServiceResponse
-import com.example.myapplication.domain.entities.WordModel
+import com.example.myapplication.data.model.ServiceResponse
 import io.realm.kotlin.query.RealmResults
 import io.realm.kotlin.types.BaseRealmObject
-import io.realm.kotlin.types.RealmList
 
 interface IBaseCRUD<T : BaseRealmObject> {
     fun create (item: T): ServiceResponse<String>

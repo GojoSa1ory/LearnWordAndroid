@@ -1,4 +1,4 @@
-package com.example.myapplication.domain.entities
+package com.example.myapplication.data.model
 
 import io.realm.kotlin.ext.realmListOf
 import io.realm.kotlin.types.RealmList

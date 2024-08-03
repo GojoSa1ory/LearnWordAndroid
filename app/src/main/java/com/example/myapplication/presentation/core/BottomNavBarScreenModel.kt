@@ -1,4 +1,4 @@
-package com.example.myapplication.domain.entities
+package com.example.myapplication.presentation.core
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home

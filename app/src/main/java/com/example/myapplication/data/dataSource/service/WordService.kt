@@ -1,11 +1,13 @@
-package com.example.myapplication.data
+package com.example.myapplication.data.dataSource.service
 
-import com.example.myapplication.domain.entities.ServiceResponse
-import com.example.myapplication.domain.entities.WordModel
-import com.example.myapplication.domain.entities.errors.DatabaseErrors
-import com.example.myapplication.domain.repositories.IWordService
+import com.example.myapplication.data.Migrator
+import com.example.myapplication.data.model.WordModel
+import com.example.myapplication.data.model.ServiceResponse
+import com.example.myapplication.data.model.errors.DatabaseErrors
+import com.example.myapplication.data.dataSource.interfaces.IWordService
 import io.realm.kotlin.Realm
 import io.realm.kotlin.ext.query
+
 import io.realm.kotlin.query.RealmResults
 
 class WordService (val databaseManager: Migrator): IWordService {
@@ -25,23 +27,23 @@ class WordService (val databaseManager: Migrator): IWordService {
     private fun createInitData () {
         realm.writeBlocking {
             copyToRealm(
-                WordModel().apply {
-                    language = null
-                    mainWord = "Test"
-                    translatedWord = "Smth"
+                WordModel(
+                    language = null,
+                    mainWord = "Test",
+                    translatedWord = "Тест",
                     wordDescription = null
-                }
+                )
             )
         }
 
         realm.writeBlocking {
             copyToRealm(
-                WordModel().apply {
-                    language = null
-                    mainWord = "Test2"
-                    translatedWord = "Smth2"
-                    wordDescription = null
-                }
+                WordModel(
+                    language = null,
+                    mainWord = "Wood",
+                    translatedWord = "Дерево",
+                    wordDescription = "Описание"
+                )
             )
         }
     }
@@ -154,6 +156,25 @@ class WordService (val databaseManager: Migrator): IWordService {
     override fun search(request: String): ServiceResponse<RealmResults<WordModel>> {
         val result = ServiceResponse<RealmResults<WordModel>>()
 
+        try {
+            if (realm.isClosed()) throw DatabaseErrors.DatabaseIsInvalid
+
+            val items: RealmResults<WordModel> = realm.query<WordModel>(
+                "mainWord CONTAINS[c] $0 OR translatedWord CONTAINS[c] $0",
+                request
+            ).find()
+
+            result.data = items
+            result.success = true
+        } catch (exc: DatabaseErrors) {
+            result.error = exc.message
+            result.success = false
+        } catch (exc: Exception) {
+            result.error = exc.localizedMessage ?: "Unknown error"
+            result.success = false
+        }
+
         return result
     }
+
 }

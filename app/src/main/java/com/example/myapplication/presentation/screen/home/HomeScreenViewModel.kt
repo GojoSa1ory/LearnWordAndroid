@@ -3,13 +3,13 @@ package com.example.myapplication.presentation.screen.home
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.example.myapplication.domain.entities.WordModel
-import com.example.myapplication.domain.repositories.IWordService
-
+import com.example.myapplication.data.dataSource.interfaces.IWordService
+import com.example.myapplication.domain.entities.WordEntity
+import com.example.myapplication.domain.useCase.WordUseCase
 
 
 class HomeScreenViewModel(
-    val service: IWordService
+    private val useCase: WordUseCase
 ) : ViewModel() {
 
     private val _state = mutableStateOf(HomeScreenState())
@@ -19,23 +19,32 @@ class HomeScreenViewModel(
         when (intent) {
             is HomeScreenIntent.LoadWords -> loadWords()
             is HomeScreenIntent.DeleteWords -> deleteWord(intent.word)
+            is HomeScreenIntent.Search -> search(intent.request)
         }
     }
 
     private fun loadWords () {
-        _state.value = HomeScreenState(isLoading = true)
+        _state.value = _state.value.copy(isLoading = true)
 
-        val res = service.read()
+        val res = useCase.read()
 
         if (res.success) {
-            _state.value = HomeScreenState(words = res.data!!.toList())
+
+            res.data?.let { nonNullableList ->
+                _state.value = _state.value.copy(isLoading = false, words = nonNullableList)
+            }
+
         } else {
-            _state.value = HomeScreenState(error = res.error)
+            _state.value = _state.value.copy(isLoading = false, error = res.error)
         }
 
     }
 
-    private fun deleteWord (word: WordModel) {
+    private fun deleteWord (word: WordEntity) {
+
+    }
+
+    private fun search (request: String) {
 
     }
 }

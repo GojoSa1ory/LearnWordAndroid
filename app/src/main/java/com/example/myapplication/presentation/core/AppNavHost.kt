@@ -6,10 +6,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.myapplication.data.Migrator
-import com.example.myapplication.data.WordService
-import com.example.myapplication.domain.entities.BottomNavBarScreenModel
+import com.example.myapplication.data.dataSource.service.WordService
 import com.example.myapplication.presentation.screen.games.GamesScreen
 import com.example.myapplication.presentation.screen.home.HomeScreen
+import com.example.myapplication.presentation.screen.home.HomeScreenBuilder
 import com.example.myapplication.presentation.screen.home.HomeScreenViewModel
 
 
@@ -23,9 +23,7 @@ fun AppNavHost(
         startDestination = BottomNavBarScreenModel.Home.route,
     ) {
         composable(route = BottomNavBarScreenModel.Home.route){
-            val service = WordService(Migrator())
-            val model = HomeScreenViewModel(service)
-            HomeScreen(model)
+            HomeScreenBuilder().buildScreen()
         }
 
         composable(route = BottomNavBarScreenModel.Games.route){

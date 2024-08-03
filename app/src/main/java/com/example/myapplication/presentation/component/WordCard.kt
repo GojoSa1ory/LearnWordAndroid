@@ -18,13 +18,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.myapplication.domain.entities.WordModel
+import com.example.myapplication.domain.entities.WordEntity
 import com.example.myapplication.presentation.core.ui.theme.MediumGray
 
 @Composable
 fun WordCard (
     modifier: Modifier = Modifier,
-    word: WordModel
+    word: WordEntity
 ) {
     Column(
         modifier = Modifier
@@ -91,5 +91,5 @@ fun WordCard (
 @Preview(showBackground = true)
 @Composable
 fun wordCardPreview () {
-    WordCard(word = WordModel())
+    WordCard(word = WordEntity())
 }

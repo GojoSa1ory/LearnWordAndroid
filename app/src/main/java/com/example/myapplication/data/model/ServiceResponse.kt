@@ -1,4 +1,4 @@
-package com.example.myapplication.domain.entities
+package com.example.myapplication.data.model
 
 data class ServiceResponse<T> (
     var data: T? = null,

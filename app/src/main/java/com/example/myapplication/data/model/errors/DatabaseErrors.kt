@@ -1,4 +1,4 @@
-package com.example.myapplication.domain.entities.errors
+package com.example.myapplication.data.model.errors
 
 sealed class DatabaseErrors (title: String, message: String?, cause: Throwable?): Throwable(message, cause) {
 
