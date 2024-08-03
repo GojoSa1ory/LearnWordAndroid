@@ -2,6 +2,7 @@ package com.example.myapplication.data
 
 import com.example.myapplication.domain.entities.ServiceResponse
 import com.example.myapplication.domain.entities.WordModel
+import com.example.myapplication.domain.entities.errors.DatabaseErrors
 import com.example.myapplication.domain.repositories.IWordService
 import io.realm.kotlin.Realm
 import io.realm.kotlin.ext.query
@@ -16,8 +17,6 @@ class WordService (val databaseManager: Migrator): IWordService {
 
         realm = Realm.open(cfg)
     }
-
-
 
     init {
 //        this.createInitData()
@@ -52,15 +51,31 @@ class WordService (val databaseManager: Migrator): IWordService {
 
         try {
 
+            if (realm.isClosed()) {
+                throw DatabaseErrors.DatabaseIsInvalid
+            }
+
             realm.writeBlocking {
                 copyToRealm(item)
             }
+
 
             result.data = "ok"
             result.success = true
             result.error = null
 
-        } catch (exc: Exception) {
+        }
+        catch (exc: DatabaseErrors) {
+            when(exc) {
+                is DatabaseErrors.DatabaseIsInvalid -> {
+                    result.error = DatabaseErrors.DatabaseIsInvalid.message
+                }
+                else -> {
+                    result.error = "Error"
+                }
+            }
+        }
+        catch (exc: Exception) {
             result.error = exc.localizedMessage
             result.success = false
             result.data = null
@@ -74,13 +89,29 @@ class WordService (val databaseManager: Migrator): IWordService {
 
         try {
 
+            if (realm.isClosed()) {
+                throw DatabaseErrors.DeleteFailed
+            }
+
             val items: RealmResults<WordModel> = realm.query(WordModel::class).find()
 
             result.data = items
             result.success = true
             result.error = null
 
-        } catch (exc: Exception) {
+        } catch (exc: DatabaseErrors) {
+            when (exc) {
+                is DatabaseErrors.DatabaseIsInvalid -> {
+                    result.data = null
+                    result.error = DatabaseErrors.DatabaseIsInvalid.message
+                }
+
+                else -> {
+                    result.error = "Error"
+                }
+            }
+        }
+        catch (exc: Exception) {
             result.error = exc.localizedMessage
             result.success = false
             result.data = null
@@ -103,7 +134,7 @@ class WordService (val databaseManager: Migrator): IWordService {
             val word = realm.query<WordModel>("_id == $0", item._id).find()
 
             if (word.isNullOrEmpty()) {
-                throw Exception()
+                throw DatabaseErrors.DeleteFailed
             }
 
             realm.writeBlocking {
