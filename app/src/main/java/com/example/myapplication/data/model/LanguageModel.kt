@@ -1,13 +1,11 @@
 package com.example.myapplication.data.model
 
-import io.realm.kotlin.ext.realmListOf
-import io.realm.kotlin.types.RealmList
-import io.realm.kotlin.types.RealmObject
-import io.realm.kotlin.types.annotations.PrimaryKey
-import org.mongodb.kbson.ObjectId
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-class LanguageModel: RealmObject {
-    @PrimaryKey var _id: ObjectId = ObjectId()
-    var languageName: String = ""
-    var words: RealmList<WordModel> = realmListOf()
-}
+@Entity("Languages")
+data class LanguageModel (
+    @PrimaryKey(autoGenerate = true) val id: Int,
+    @ColumnInfo("language_name") val language: String
+)

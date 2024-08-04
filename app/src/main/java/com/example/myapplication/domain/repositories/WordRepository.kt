@@ -1,13 +1,12 @@
 package com.example.myapplication.domain.repositories
 
-import com.example.myapplication.data.model.ServiceResponse
-
-import com.example.myapplication.domain.entities.WordEntity
+import com.example.myapplication.domain.models.WordModel
+import kotlinx.coroutines.flow.Flow
 
 interface WordRepository {
-    fun create(item: WordEntity): ServiceResponse<String>
-    fun read(): ServiceResponse<List<WordEntity>>
-    fun update(item: WordEntity): ServiceResponse<String>
-    fun delete(item: WordEntity): ServiceResponse<String>
-    fun search(query: String): ServiceResponse<List<WordEntity>>
+    suspend fun create(item: WordModel): Result<Boolean>
+    suspend fun read(): Result<Flow<List<WordModel>>>
+    suspend fun update(item: WordModel): Result<Boolean>
+    suspend fun delete(item: WordModel): Result<Boolean>
+    suspend fun search(query: String): Result<Flow<List<WordModel>>>
 }

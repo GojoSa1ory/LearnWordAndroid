@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.presentation.core.ui.theme.MyApplicationTheme
+import org.koin.androidx.compose.KoinAndroidContext
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,8 +23,10 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyApplicationTheme {
-                Box (modifier = Modifier.windowInsetsPadding(WindowInsets.safeDrawing)) {
-                    MainScreen()
+                KoinAndroidContext {
+                    Box (modifier = Modifier.windowInsetsPadding(WindowInsets.safeDrawing)) {
+                        MainScreen()
+                    }
                 }
             }
         }
@@ -36,15 +39,17 @@ fun MainScreen (
 ) {
     val navController = rememberNavController()
 
-    Scaffold(
-        bottomBar = { BottomNavBar(navController = navController) }
-    ) { padding ->
-        AppNavHost(
-            navController = navController,
-            modifier = Modifier.padding(padding)
-        )
-    }
+
+        Scaffold(
+            bottomBar = { BottomNavBar(navController = navController) }
+        ) { padding ->
+            AppNavHost(
+                navController = navController,
+                modifier = Modifier.padding(padding)
+            )
+        }
 }
+
 
 @Composable
 @Preview(showBackground = true)

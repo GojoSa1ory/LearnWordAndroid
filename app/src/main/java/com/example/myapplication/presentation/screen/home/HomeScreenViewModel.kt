@@ -5,12 +5,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.example.myapplication.data.interfaces.IWordService
-import com.example.myapplication.domain.entities.WordEntity
-import com.example.myapplication.domain.mapper.WordMapper
-import com.example.myapplication.domain.useCase.wordUseCase.DeleteWordUseCase
-import com.example.myapplication.domain.useCase.wordUseCase.GetWordsUseCase
-import com.example.myapplication.domain.useCase.wordUseCase.SearchWordUseCase
+import androidx.lifecycle.viewModelScope
+import com.example.myapplication.domain.models.WordModel
+import com.example.myapplication.domain.useсase.wordusecase.DeleteWordUseCase
+import com.example.myapplication.domain.useсase.wordusecase.GetWordsUseCase
+import com.example.myapplication.domain.useсase.wordusecase.SearchWordUseCase
+import kotlinx.coroutines.launch
 
 
 class HomeScreenViewModel(
@@ -40,38 +40,54 @@ class HomeScreenViewModel(
     private fun loadWords () {
         _state.value = _state.value.copy(isLoading = true)
 
-        val res = getWordsUseCase.execute()
+        viewModelScope.launch {
+            val res = getWordsUseCase.execute()
 
-        if (res.success) {
-
-            res.data?.let { nonNullableList ->
-                _state.value = _state.value.copy(isLoading = false, words = nonNullableList)
+            res.onSuccess { data ->
+                data.collect { words ->
+                    _state.value = _state.value.copy(
+                        isLoading = false,
+                        words = words
+                    )
+                }
             }
 
-        } else {
-            _state.value = _state.value.copy(isLoading = false, error = res.error)
+            res.onFailure { data ->
+                _state.value = _state.value.copy(
+                    isLoading = false,
+                    words = emptyList(),
+                    error = data.message
+                )
+            }
         }
 
     }
 
-    private fun deleteWord (word: WordEntity) {
-        val res = deleteWordsUseCase.execute(word)
-
-        if (!res.success) {
-            _state.value = _state.value.copy(error = res.error)
-        }
+    private fun deleteWord (word: WordModel) {
+//        val res = deleteWordsUseCase.execute(word)
+//
+//        if (!res.success) {
+//            _state.value = _state.value.copy(error = res.error)
+//        }
     }
 
     private fun search (request: String) {
-        val res = searchWordUseCase.execute(request)
+        viewModelScope.launch {
+            val res = searchWordUseCase.execute(request)
 
-        if (res.success) {
-            res.data?.let { data ->
-                _state.value = _state.value.copy(words = data, isLoading = false)
+            res.onSuccess { data ->
+                data.collect {word ->
+                    _state.value = _state.value.copy(
+                        words = word
+                    )
+                }
             }
-        } else {
-            _state.value = _state.value.copy(isLoading = false, error = res.error, words = emptyList())
-        }
 
+            res.onFailure { data ->
+                _state.value = _state.value.copy(
+                    words = emptyList()
+                )
+            }
+        }
     }
 }

@@ -1,64 +1,55 @@
 package com.example.myapplication.data.repositories
 
-import com.example.myapplication.data.interfaces.IWordService
-import com.example.myapplication.data.model.ServiceResponse
-import com.example.myapplication.domain.mapper.WordMapper
-import com.example.myapplication.domain.entities.WordEntity
+import com.example.myapplication.data.interfaces.WordDao
+import com.example.myapplication.data.model.errors.DatabaseErrors
+import com.example.myapplication.domain.models.WordModel
 import com.example.myapplication.domain.repositories.WordRepository
+import kotlinx.coroutines.flow.Flow
 
-class WordRepositoryImpl(private val service: IWordService): WordRepository {
+class WordRepositoryImpl(private val service: WordDao): WordRepository {
 
-    override fun create(item: WordEntity): ServiceResponse<String> {
-
-        val word = WordMapper().mapToModel(item)
-        val response = service.create(word)
-
-        return if (response.success) {
-            ServiceResponse(response.data ?: "Success", success = true)
-        } else {
-            ServiceResponse(error = response.error)
+    override suspend fun create(item: WordModel): Result<Boolean> {
+        return try {
+            service.create(item)
+            Result.success(true)
+        } catch(e: Exception) {
+            Result.failure(DatabaseErrors.CreateFailed)
         }
     }
 
-    override fun read(): ServiceResponse<List<WordEntity>> {
-        val response = service.read()
-        return if (response.success) {
-
-            val words = response.data?.let {words ->
-                words.map { word ->
-                    WordMapper().mapToEntity(word)
-                }
-            }
-
-            ServiceResponse(data = words, success = true)
-
-        } else {
-            ServiceResponse(error = response.error)
+    override suspend fun read(): Result<Flow<List<WordModel>>> {
+        return try {
+            val words = service.read()
+            Result.success(words)
+        } catch(e: Exception) {
+            Result.failure(DatabaseErrors.ReadFailed)
         }
     }
 
-    override fun update(item: WordEntity): ServiceResponse<String> {
-        TODO("Not yet implemented")
+    override suspend fun update(item: WordModel): Result<Boolean> {
+        return try {
+            service.update(item)
+            Result.success(true)
+        } catch(e: Exception) {
+            Result.failure(DatabaseErrors.UpdateFailed)
+        }
     }
 
-    override fun delete(item: WordEntity): ServiceResponse<String> {
-        TODO("Not yet implemented")
+    override suspend fun delete(item: WordModel): Result<Boolean> {
+        return try {
+            service.delete(item)
+            Result.success(true)
+        } catch(e: Exception) {
+            Result.failure(DatabaseErrors.DeleteFailed)
+        }
     }
 
-    override fun search(query: String): ServiceResponse<List<WordEntity>> {
-        val response = service.search(query)
-
-        return if (response.success) {
-
-            val words = response.data?.let { data ->
-                data.map { word ->
-                    WordMapper().mapToEntity(word)
-                }
-            }
-
-            ServiceResponse(data = words, success = true)
-        } else {
-            ServiceResponse(error = response.error)
+    override suspend fun search(query: String): Result<Flow<List<WordModel>>> {
+        return try {
+            val words = service.search(query)
+            Result.success(words)
+        } catch(e: Exception) {
+            Result.failure(DatabaseErrors.ReadFailed)
         }
     }
 

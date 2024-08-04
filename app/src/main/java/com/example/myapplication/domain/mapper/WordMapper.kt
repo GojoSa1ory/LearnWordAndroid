@@ -1,12 +1,13 @@
 package com.example.myapplication.domain.mapper
 
-import com.example.myapplication.data.model.WordModel
-import com.example.myapplication.domain.entities.WordEntity
+import com.example.myapplication.data.model.WordEntity
+import com.example.myapplication.domain.models.WordModel
 
 class WordMapper {
 
     fun mapToModel(word: WordEntity): WordModel {
         return WordModel (
+            _id = word._id,
             language = word.language,
             mainWord = word.mainWord,
             translatedWord = word.translatedWord,

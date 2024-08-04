@@ -16,10 +16,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.presentation.component.InputView
 import com.example.myapplication.presentation.component.WordCard
+import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.getKoin
+import org.koin.compose.koinInject
+import org.koin.viewmodel.getViewModelKey
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeScreenViewModel
+    viewModel: HomeScreenViewModel = koinViewModel<HomeScreenViewModel>()
 ) {
 
     LaunchedEffect(key1 = true) {

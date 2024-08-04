@@ -1,34 +1,29 @@
 package com.example.myapplication.data.model.errors
 
-sealed class DatabaseErrors (title: String, message: String?, cause: Throwable?): Throwable(message, cause) {
+sealed class DatabaseErrors (message: String, title: String): Error(message) {
 
-    object DatabaseIsInvalid : DatabaseErrors(
-        title = "Database is invalid",
-        message = "Database is invalid at now.",
-        cause = null
-    )
+//    object DatabaseIsInvalid : DatabaseErrors(
+//        title = "Database is invalid",
+//        message = "Database is invalid at now.",
+//    )
 
     object CreateFailed : DatabaseErrors(
         title = "Create failed",
         message = "Error while try create data in database.",
-        cause = null
     )
 
     object ReadFailed : DatabaseErrors(
         title = "Read failed",
         message = "Error while try read data from database.",
-        cause = null
     )
 
     object UpdateFailed : DatabaseErrors(
         title = "Update failed",
         message = "Error while try update data in database.",
-        cause = null
     )
 
     object DeleteFailed : DatabaseErrors(
         title = "Delete failed",
         message = "Error while try delete data from database.",
-        cause = null
     )
 }

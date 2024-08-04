@@ -1,7 +1,6 @@
 package com.example.myapplication.presentation.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,16 +14,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.myapplication.domain.entities.WordEntity
+import com.example.myapplication.domain.models.WordModel
 import com.example.myapplication.presentation.core.ui.theme.MediumGray
 
 @Composable
 fun WordCard (
     modifier: Modifier = Modifier,
-    word: WordEntity
+    word: WordModel
 ) {
     Column(
         modifier = Modifier
@@ -35,7 +33,7 @@ fun WordCard (
 
     ) {
 
-        word.language?.let { Text(it.languageName) }
+        word.language?.let { Text(it.language) }
 
         Text(
             modifier = Modifier.padding(bottom = 4.dp),
@@ -74,9 +72,9 @@ fun WordCard (
                 .background(Color.DarkGray)
         )
 
-        if (word.wordDescription != null) {
+        word.wordDescription?.let { des ->
             Text(
-                text = word.wordDescription!!,
+                text = des,
                 style = TextStyle(
                     color = Color.DarkGray,
                     fontSize = 18.sp,
@@ -88,8 +86,8 @@ fun WordCard (
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun wordCardPreview () {
-    WordCard(word = WordEntity())
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun wordCardPreview () {
+//    WordCard(word = WordModel())
+//}
