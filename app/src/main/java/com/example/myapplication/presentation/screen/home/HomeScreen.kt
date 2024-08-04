@@ -44,6 +44,7 @@ fun HomeScreen(
             item {
                 InputView(inputValue = viewModel.request) { value ->
                     viewModel.updateRequest(value)
+                    viewModel.handleIntent(HomeScreenIntent.Search(viewModel.request))
                 }
             }
 

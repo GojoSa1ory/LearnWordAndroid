@@ -7,14 +7,16 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.myapplication.data.interfaces.IWordService
 import com.example.myapplication.domain.entities.WordEntity
-import com.example.myapplication.domain.useCase.WordUseCase
+import com.example.myapplication.domain.mapper.WordMapper
 import com.example.myapplication.domain.useCase.wordUseCase.DeleteWordUseCase
 import com.example.myapplication.domain.useCase.wordUseCase.GetWordsUseCase
+import com.example.myapplication.domain.useCase.wordUseCase.SearchWordUseCase
 
 
 class HomeScreenViewModel(
     private val getWordsUseCase: GetWordsUseCase,
-    private val deleteWordsUseCase: DeleteWordUseCase
+    private val deleteWordsUseCase: DeleteWordUseCase,
+    private val searchWordUseCase: SearchWordUseCase
 ) : ViewModel() {
 
     private val _state = mutableStateOf(HomeScreenState())
@@ -61,6 +63,15 @@ class HomeScreenViewModel(
     }
 
     private fun search (request: String) {
+        val res = searchWordUseCase.execute(request)
+
+        if (res.success) {
+            res.data?.let { data ->
+                _state.value = _state.value.copy(words = data, isLoading = false)
+            }
+        } else {
+            _state.value = _state.value.copy(isLoading = false, error = res.error, words = emptyList())
+        }
 
     }
 }

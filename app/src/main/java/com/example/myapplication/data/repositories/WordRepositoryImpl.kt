@@ -46,7 +46,20 @@ class WordRepositoryImpl(private val service: IWordService): WordRepository {
     }
 
     override fun search(query: String): ServiceResponse<List<WordEntity>> {
-        TODO("Not yet implemented")
+        val response = service.search(query)
+
+        return if (response.success) {
+
+            val words = response.data?.let { data ->
+                data.map { word ->
+                    WordMapper().mapToEntity(word)
+                }
+            }
+
+            ServiceResponse(data = words, success = true)
+        } else {
+            ServiceResponse(error = response.error)
+        }
     }
 
 

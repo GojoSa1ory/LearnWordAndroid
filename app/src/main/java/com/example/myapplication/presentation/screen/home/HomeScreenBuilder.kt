@@ -4,9 +4,9 @@ import androidx.compose.runtime.Composable
 import com.example.myapplication.data.Migrator
 import com.example.myapplication.data.service.WordService
 import com.example.myapplication.data.repositories.WordRepositoryImpl
-import com.example.myapplication.domain.useCase.WordUseCase
 import com.example.myapplication.domain.useCase.wordUseCase.DeleteWordUseCase
 import com.example.myapplication.domain.useCase.wordUseCase.GetWordsUseCase
+import com.example.myapplication.domain.useCase.wordUseCase.SearchWordUseCase
 
 class HomeScreenBuilder {
     @Composable
@@ -16,9 +16,11 @@ class HomeScreenBuilder {
         val wordRepository = WordRepositoryImpl(service)
         val getWordsUseCase = GetWordsUseCase(wordRepository)
         val deleteWordsUseCase = DeleteWordUseCase(wordRepository)
+        val searchWordUseCase = SearchWordUseCase(wordRepository)
         val viewModel = HomeScreenViewModel(
             getWordsUseCase = getWordsUseCase,
-            deleteWordsUseCase = deleteWordsUseCase
+            deleteWordsUseCase = deleteWordsUseCase,
+            searchWordUseCase = searchWordUseCase
         )
 
         return HomeScreen(viewModel = viewModel)
