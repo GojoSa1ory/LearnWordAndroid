@@ -9,6 +9,5 @@ data class WordEntity(
     @PrimaryKey(autoGenerate = true) val _id: Int,
     @ColumnInfo(name = "main_word") val mainWord: String,
     @ColumnInfo(name = "translated_word") val translatedWord: String,
-    @ColumnInfo(name = "word_description") val wordDescription: String?,
-    @ColumnInfo(name = "language") val language: LanguageModel?
+    @ColumnInfo(name = "word_description") val wordDescription: String?
 )

@@ -12,7 +12,7 @@ interface BaseDAO<T> {
     @Insert
     suspend fun create (item: T): Boolean
 
-    abstract suspend fun read (): Flow<List<T>>
+    suspend fun read (): Flow<List<T>>
 
     @Update
     suspend fun update (item: T): Boolean

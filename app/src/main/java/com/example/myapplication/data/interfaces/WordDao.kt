@@ -1,7 +1,6 @@
 package com.example.myapplication.data.interfaces
 
 import androidx.room.Query
-import com.example.myapplication.data.model.WordEntity
 import com.example.myapplication.domain.models.WordModel
 import kotlinx.coroutines.flow.Flow
 
