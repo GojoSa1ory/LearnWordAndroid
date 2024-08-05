@@ -7,7 +7,7 @@ import com.example.myapplication.domain.repositories.WordRepository
 class DeleteWordUseCase(
     private val rep: WordRepository
 ) {
-    suspend fun execute (item: WordModel): Result<Boolean> {
+    suspend fun execute (item: WordModel): Result<Int> {
         return rep.delete(item)
     }
 }

@@ -6,5 +6,4 @@ plugins {
     alias(libs.plugins.jetbrains.compose.compiler) apply false
 
     alias(libs.plugins.google.ksp) apply false
-    id 'androidx.room' version "2.6.1" apply false
 }

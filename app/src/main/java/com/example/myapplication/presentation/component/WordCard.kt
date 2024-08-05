@@ -33,7 +33,7 @@ fun WordCard (
 
     ) {
 
-        word.language?.let { Text(it.language) }
+//        word.language?.let { Text(it.language) }
 
         Text(
             modifier = Modifier.padding(bottom = 4.dp),

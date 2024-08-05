@@ -8,7 +8,6 @@ class WordMapper {
     fun mapToModel(word: WordEntity): WordModel {
         return WordModel (
             _id = word._id,
-            language = word.language,
             mainWord = word.mainWord,
             translatedWord = word.translatedWord,
             wordDescription = word.wordDescription
@@ -20,8 +19,7 @@ class WordMapper {
             _id = word._id,
             wordDescription = word.wordDescription,
             translatedWord = word.translatedWord,
-            mainWord = word.mainWord,
-            language = word.language
+            mainWord = word.mainWord
         )
     }
 }

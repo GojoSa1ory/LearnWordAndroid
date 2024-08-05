@@ -10,12 +10,13 @@ import org.koin.dsl.module
 val dataModule = module {
 
     single {
-        Room.databaseBuilder(get(), AppDatabase::class.java, "learnWord_database")
+        Room.databaseBuilder(get(), AppDatabase::class.java, "learnWord-database")
             .build()
     }
 
     single {
-        get<AppDatabase>().wordDao()
+        val db = get<AppDatabase>()
+        db.wordDao()
     }
 
     single<WordRepository> {

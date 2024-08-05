@@ -5,7 +5,7 @@ import com.example.myapplication.domain.repositories.WordRepository
 
 
 class CreateWordUseCase(private val wordRep: WordRepository) {
-    suspend fun execute(item: WordModel): Result<Boolean> {
+    suspend fun execute(item: WordModel): Result<Long> {
         return wordRep.create(item)
     }
 }

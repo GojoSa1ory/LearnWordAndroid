@@ -11,19 +11,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.presentation.component.InputView
 import com.example.myapplication.presentation.component.WordCard
 import org.koin.androidx.compose.koinViewModel
-import org.koin.compose.getKoin
-import org.koin.compose.koinInject
-import org.koin.viewmodel.getViewModelKey
+
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeScreenViewModel = koinViewModel<HomeScreenViewModel>()
+    viewModel: HomeScreenViewModel = koinViewModel()
 ) {
 
     LaunchedEffect(key1 = true) {
@@ -42,7 +41,8 @@ fun HomeScreen(
 
         LazyColumn(
             modifier = Modifier.background(Color.White),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
             item {
@@ -55,6 +55,10 @@ fun HomeScreen(
             if(state.isLoading) {
                 item {
                     Text("Loading")
+                }
+            } else if (state.words.isEmpty()) {
+                item {
+                    Text("No words")
                 }
             } else {
                 items(state.words) { word ->
