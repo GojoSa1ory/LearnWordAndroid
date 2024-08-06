@@ -1,6 +1,7 @@
-package com.example.myapplication.presentation.core
+package com.example.myapplication.presentation.navigation
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -18,6 +18,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -43,17 +45,22 @@ fun BottomNavBar(
         screens.find { it.route == currentDestination?.route } ?: BottomNavBarScreenModel.Home
 
     Row(
-        horizontalArrangement = Arrangement.Center,
+
+        horizontalArrangement = Arrangement.SpaceAround,
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 10.dp)
-            .padding(horizontal = 30.dp)
             .height(70.dp)
-            .background(
-                color = Color.Black,
-                shape = RoundedCornerShape(corner = CornerSize(size = 15.dp))
-            ),
+            .background(color = Color.White)
+            .drawBehind {
+                drawLine(
+                    Color.LightGray,
+                    Offset(0f, 0f),
+                    Offset(size.width, 0f),
+                    3f
+                )
+            }
+
     ) {
         screens.forEach { screen ->
             BottomNavItem(
@@ -88,14 +95,14 @@ fun BottomNavItem(
         Icon(
             imageVector = screen.icon,
             contentDescription = null,
-            tint = Color.White,
+            tint = Color.Gray,
             modifier = Modifier
                 .width(35.dp)
                 .height(35.dp),
         )
         Text(
             text = screen.title,
-            color = Color.White,
+            color = Color.Black,
             fontSize = 18.sp
         )
     }

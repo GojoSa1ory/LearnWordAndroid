@@ -14,9 +14,9 @@ import kotlinx.coroutines.launch
 
 
 class HomeScreenViewModel(
-    private val getWordsUseCase: GetWordsUseCase,
-    private val deleteWordsUseCase: DeleteWordUseCase,
-    private val searchWordUseCase: SearchWordUseCase
+    private val getWordsUseCase: com.example.myapplication.domain.useсase.wordusecase.GetWordsUseCase,
+    private val deleteWordsUseCase: com.example.myapplication.domain.useсase.wordusecase.DeleteWordUseCase,
+    private val searchWordUseCase: com.example.myapplication.domain.useсase.wordusecase.SearchWordUseCase
 ) : ViewModel() {
 
     private val _state = mutableStateOf(HomeScreenState())
@@ -64,11 +64,13 @@ class HomeScreenViewModel(
     }
 
     private fun deleteWord (word: WordModel) {
-//        val res = deleteWordsUseCase.execute(word)
-//
-//        if (!res.success) {
-//            _state.value = _state.value.copy(error = res.error)
-//        }
+        viewModelScope.launch {
+            val res = deleteWordsUseCase.execute(word)
+
+            res.onFailure { error ->
+                _state.value = _state.value.copy(error = error.localizedMessage)
+            }
+        }
     }
 
     private fun search (request: String) {

@@ -2,15 +2,16 @@ package com.example.myapplication.data.repositories
 
 import com.example.myapplication.data.daos.WordDao
 import com.example.myapplication.data.model.errors.DatabaseErrors
-import com.example.myapplication.domain.mapper.WordMapper
+import com.example.myapplication.data.mapper.WordMapper
 import com.example.myapplication.domain.models.WordModel
 import com.example.myapplication.domain.repositories.WordRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class WordRepositoryImpl(private val service: WordDao): WordRepository {
+class WordRepositoryImpl(private val service: WordDao):
+    com.example.myapplication.domain.repositories.WordRepository {
 
-    override suspend fun create(item: WordModel): Result<Long> {
+    override suspend fun create(item: com.example.myapplication.domain.models.WordModel): Result<Long> {
         return try {
             val word = WordMapper().mapToEntity(item)
             val res = service.create(word)
@@ -20,11 +21,11 @@ class WordRepositoryImpl(private val service: WordDao): WordRepository {
         }
     }
 
-    override suspend fun read(): Result<Flow<List<WordModel>>> {
+    override suspend fun read(): Result<Flow<List<com.example.myapplication.domain.models.WordModel>>> {
         return try {
             val res = service.read()
 
-            val words: Flow<List<WordModel>> = res.map { data ->
+            val words: Flow<List<com.example.myapplication.domain.models.WordModel>> = res.map { data ->
                 data.map { word ->
                     WordMapper().mapToModel(word)
                 }
@@ -36,7 +37,7 @@ class WordRepositoryImpl(private val service: WordDao): WordRepository {
         }
     }
 
-    override suspend fun update(item: WordModel): Result<Int> {
+    override suspend fun update(item: com.example.myapplication.domain.models.WordModel): Result<Int> {
         return try {
 
             val word = WordMapper().mapToEntity(item)
@@ -48,17 +49,17 @@ class WordRepositoryImpl(private val service: WordDao): WordRepository {
         }
     }
 
-    override suspend fun delete(item: WordModel): Result<Int> {
+    override suspend fun delete(item: com.example.myapplication.domain.models.WordModel): Result<Int> {
         return try {
             val word = WordMapper().mapToEntity(item)
             val res = service.delete(word)
             Result.success(res)
         } catch(e: Exception) {
-            Result.failure(DatabaseErrors.DeleteFailed)
+            Result.failure(e)
         }
     }
 
-    override suspend fun search(query: String): Result<Flow<List<WordModel>>> {
+    override suspend fun search(query: String): Result<Flow<List<com.example.myapplication.domain.models.WordModel>>> {
         return try {
             val res = service.search(query)
 

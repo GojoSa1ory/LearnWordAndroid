@@ -1,4 +1,4 @@
-package com.example.myapplication.domain.mapper
+package com.example.myapplication.data.mapper
 
 import com.example.myapplication.data.model.WordEntity
 import com.example.myapplication.domain.models.WordModel
@@ -6,7 +6,7 @@ import com.example.myapplication.domain.models.WordModel
 class WordMapper {
 
     fun mapToModel(word: WordEntity): WordModel {
-        return WordModel (
+        return WordModel(
             _id = word._id,
             mainWord = word.mainWord,
             translatedWord = word.translatedWord,

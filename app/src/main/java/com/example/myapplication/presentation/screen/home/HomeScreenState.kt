@@ -5,6 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 data class HomeScreenState (
     val isLoading: Boolean = false,
-    val words: List<WordModel> = emptyList(),
+    val words: List<com.example.myapplication.domain.models.WordModel> = emptyList(),
     val error: String? = null
 ){}

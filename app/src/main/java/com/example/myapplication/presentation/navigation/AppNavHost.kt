@@ -1,4 +1,4 @@
-package com.example.myapplication.presentation.core
+package com.example.myapplication.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

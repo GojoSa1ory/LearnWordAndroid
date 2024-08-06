@@ -2,11 +2,15 @@ package com.example.myapplication.presentation.screen.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -14,7 +18,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.myapplication.presentation.component.AddButton
 import com.example.myapplication.presentation.component.InputView
 import com.example.myapplication.presentation.component.WordCard
 import org.koin.androidx.compose.koinViewModel
@@ -29,19 +36,24 @@ fun HomeScreen(
         viewModel.handleIntent(intent = HomeScreenIntent.LoadWords)
     }
 
-    Surface(
+    val state by viewModel.viewState
+
+    Box(
         modifier = Modifier
             .background(Color.White)
-            .padding(15.dp)
-            .fillMaxSize(),
-
-        ) {
-
-        val state by viewModel.viewState
-
+            .padding(horizontal = 15.dp)
+            .padding(
+                bottom = WindowInsets
+                    .navigationBars
+                    .asPaddingValues()
+                    .calculateBottomPadding() + 24.dp,
+            )
+            .fillMaxSize()
+    ) {
         LazyColumn(
-            modifier = Modifier.background(Color.White),
-            verticalArrangement = Arrangement.spacedBy(10.dp),
+            modifier = Modifier
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(15.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
@@ -52,21 +64,66 @@ fun HomeScreen(
                 }
             }
 
-            if(state.isLoading) {
+            if (state.isLoading) {
                 item {
-                    Text("Loading")
+                    Text(
+                        text ="Loading",
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
                 }
             } else if (state.words.isEmpty()) {
                 item {
-                    Text("No words")
+                    Text(
+                        text ="No words",
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
                 }
             } else {
                 items(state.words) { word ->
-                    WordCard(word = word)
+                    WordCard(word = word) {
+                        viewModel.handleIntent(HomeScreenIntent.DeleteWords(word))
+                    }
+                }
+                items(state.words) { word ->
+                    WordCard(word = word) {
+                        viewModel.handleIntent(HomeScreenIntent.DeleteWords(word))
+                    }
+                }
+                items(state.words) { word ->
+                    WordCard(word = word) {
+                        viewModel.handleIntent(HomeScreenIntent.DeleteWords(word))
+                    }
+                }
+                items(state.words) { word ->
+                    WordCard(word = word) {
+                        viewModel.handleIntent(HomeScreenIntent.DeleteWords(word))
+                    }
+                }
+                items(state.words) { word ->
+                    WordCard(word = word) {
+                        viewModel.handleIntent(HomeScreenIntent.DeleteWords(word))
+                    }
+                }
+                items(state.words) { word ->
+                    WordCard(word = word) {
+                        viewModel.handleIntent(HomeScreenIntent.DeleteWords(word))
+                    }
+                }
+                items(state.words) { word ->
+                    WordCard(word = word) {
+                        viewModel.handleIntent(HomeScreenIntent.DeleteWords(word))
+                    }
+                }
+                items(state.words) { word ->
+                    WordCard(word = word) {
+                        viewModel.handleIntent(HomeScreenIntent.DeleteWords(word))
+                    }
                 }
             }
 
-            if(state.error != null) {
+            if (state.error != null) {
                 item {
                     state.error?.let { error ->
                         Text(error)
@@ -76,8 +133,19 @@ fun HomeScreen(
 
         }
 
+        AddButton(
+            modifier = Modifier
+                .padding(bottom = 10.dp)
+                .size(50.dp)
+                .align(Alignment.BottomEnd)
+        ) {
+            print(1)
+        }
+
     }
+
 }
+
 
 
 
