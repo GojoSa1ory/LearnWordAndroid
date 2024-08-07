@@ -10,6 +10,7 @@ import com.example.myapplication.domain.useсase.wordusecase.GetWordsUseCase
 import com.example.myapplication.domain.useсase.wordusecase.SearchWordUseCase
 import com.example.myapplication.domain.useсase.wordusecase.UpdateWordUseCase
 import com.example.myapplication.presentation.screen.home.HomeScreenViewModel
+import com.example.myapplication.presentation.screen.home.components.homeBottomSheet.HomeBottomSheetViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
@@ -42,4 +43,5 @@ val domainModule = module {
 
 val appDi = module {
     viewModel { HomeScreenViewModel(get(), get(), get()) }
+    viewModel { HomeBottomSheetViewModel(get()) }
 }

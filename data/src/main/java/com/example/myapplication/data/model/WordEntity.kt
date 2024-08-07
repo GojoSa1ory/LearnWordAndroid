@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "Words")
 data class WordEntity(
-    @PrimaryKey(autoGenerate = true) val _id: Int,
+    @PrimaryKey(autoGenerate = true) val _id: Int = 0,
     @ColumnInfo(name = "main_word") val mainWord: String,
     @ColumnInfo(name = "translated_word") val translatedWord: String,
     @ColumnInfo(name = "word_description") val wordDescription: String?

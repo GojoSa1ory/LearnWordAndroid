@@ -16,7 +16,15 @@ class WordMapper {
 
     fun mapToEntity(word: WordModel): WordEntity {
         return WordEntity(
-            _id = word._id,
+            _id = word._id ?: 0,
+            wordDescription = word.wordDescription,
+            translatedWord = word.translatedWord,
+            mainWord = word.mainWord
+        )
+    }
+
+    fun mapToEntityForCreate(word: WordModel): WordEntity {
+        return WordEntity(
             wordDescription = word.wordDescription,
             translatedWord = word.translatedWord,
             mainWord = word.mainWord

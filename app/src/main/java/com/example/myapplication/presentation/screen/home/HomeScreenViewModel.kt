@@ -25,8 +25,8 @@ class HomeScreenViewModel(
     var request by mutableStateOf("")
         private set
 
-    fun updateRequest(input: String) {
-        request = input
+    fun updateRequest (value: String) {
+        request = value
     }
 
     fun handleIntent (intent: HomeScreenIntent) {

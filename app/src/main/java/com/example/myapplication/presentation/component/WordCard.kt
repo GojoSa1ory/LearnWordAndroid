@@ -41,19 +41,14 @@ fun WordCard (
     onRemove: () -> Unit
 ) {
 
-//    val coroutineScope = rememberCoroutineScope()
-
     val swipeState = rememberSwipeToDismissBoxState(
         confirmValueChange = { state ->
             if(state == SwipeToDismissBoxValue.EndToStart) {
-//                coroutineScope.launch {
-                    onRemove()
-//                }
+                onRemove()
                 true
             } else {
                 false
             }
-
         }
     )
 
@@ -117,14 +112,18 @@ fun WordCard (
             )
 
             word.wordDescription?.let { des ->
-                Text(
-                    text = des,
-                    style = TextStyle(
-                        color = Color.DarkGray,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold
+
+                if(des != "") {
+                    Text(
+                        text = des,
+                        style = TextStyle(
+                            color = Color.DarkGray,
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold
+                        )
                     )
-                )
+                }
+
             }
 
         }
