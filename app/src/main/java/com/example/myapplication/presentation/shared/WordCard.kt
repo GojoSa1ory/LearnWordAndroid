@@ -8,15 +8,21 @@ import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -36,6 +42,7 @@ import com.example.myapplication.presentation.core.ui.theme.MediumGray
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WordCard(
     modifier: Modifier = Modifier,
@@ -43,56 +50,36 @@ fun WordCard(
     onRemove: () -> Unit,
 ) {
 
-    val offsetX = remember { Animatable(0f) }
-    val screenWidth = LocalConfiguration.current.screenWidthDp.toFloat()
-    val corotuneScope = rememberCoroutineScope()
+    val swipeState = rememberSwipeToDismissBoxState(
+        confirmValueChange = { state ->
+            if(state == SwipeToDismissBoxValue.EndToStart) {
+                onRemove()
+                true
+            } else {
+                false
+            }
+        }
+    )
 
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-    ) {
-
-        Icon(
-            imageVector = Icons.Default.Delete,
-            contentDescription = "Delete",
-            tint = Color.Red,
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .padding(end = 16.dp)
-        )
-
+    SwipeToDismissBox(state = swipeState, enableDismissFromStartToEnd = false, backgroundContent = {
+        Box (
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.CenterEnd
+        ) {
+            Icon(
+                imageVector = Icons.Filled.Delete,
+                contentDescription = null,
+                modifier = Modifier.size(35.dp)
+            )
+        }
+    }) {
         Column(
             modifier = Modifier
-                .offset { IntOffset(offsetX.value.roundToInt(), 0) }
                 .fillMaxWidth()
                 .clip(shape = RoundedCornerShape(size = 10.dp))
                 .background(MediumGray)
-                .padding(10.dp)
-                .pointerInput(Unit) {
-                    detectHorizontalDragGestures(
-                        onDragEnd = {
-                            corotuneScope.launch {
-                                if (offsetX.value < -screenWidth / 0.5) {
-                                    onRemove()
-                                } else {
-                                    offsetX.animateTo(0f)
-                                }
-                            }
-                        }
-                    ) { change, dragAmount ->
-                        // Свайп карточки
-                        corotuneScope.launch {
-                            if(dragAmount < 0) {
-                                offsetX.snapTo(offsetX.value + dragAmount)
-                            }
-                        }
-                    }
-                }
+                .padding(10.dp),
         ) {
-
-
-//        word.language?.let { Text(it.language) }
-
             Text(
                 modifier = Modifier.padding(bottom = 4.dp),
                 text = "Language",
@@ -142,9 +129,7 @@ fun WordCard(
                         )
                     )
                 }
-
             }
-
         }
     }
 }
@@ -155,3 +140,6 @@ fun WordCard(
 //fun wordCardPreview () {
 //    WordCard(word = WordModel())
 //}
+
+
+
