@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
@@ -25,6 +27,9 @@ fun SearchInputView (
         verticalAlignment = Alignment.CenterVertically
     ) {
         OutlinedTextField(
+            onValueChange = { newReq ->
+                onChange(newReq)
+            },
             modifier = Modifier
                 .fillMaxWidth(),
             label = { Text("Search") },
@@ -33,9 +38,9 @@ fun SearchInputView (
             leadingIcon = { Icon(imageVector = Icons.Default.Search, contentDescription = null) },
             placeholder = { Text("Request") },
             value = inputValue,
-            onValueChange = { newReq ->
-                onChange(newReq)
-            }
+            keyboardOptions = KeyboardOptions(
+                showKeyboardOnFocus = false
+            )
         )
     }
 }

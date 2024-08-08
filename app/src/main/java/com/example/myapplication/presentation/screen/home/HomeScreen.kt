@@ -47,12 +47,12 @@ fun HomeScreen(
         modifier = Modifier
             .background(Color.White)
             .padding(horizontal = 15.dp)
-            .padding(
-                bottom = WindowInsets
-                    .navigationBars
-                    .asPaddingValues()
-                    .calculateBottomPadding() + 24.dp,
-            )
+//            .padding(
+//                bottom = WindowInsets
+//                    .navigationBars
+//                    .asPaddingValues()
+//                    .calculateBottomPadding() + 24.dp,
+//            )
             .fillMaxSize()
     ) {
         LazyColumn(
@@ -92,7 +92,37 @@ fun HomeScreen(
                     )
                 }
             } else {
-                items(state.words, key = { word -> word.mainWord }) { word ->
+                items(state.words, key = { word -> word._id }) { word ->
+                    WordCard(word = word) {
+                        viewModel.handleIntent(HomeScreenIntent.DeleteWords(word))
+                    }
+                }
+                items(state.words) { word ->
+                    WordCard(word = word) {
+                        viewModel.handleIntent(HomeScreenIntent.DeleteWords(word))
+                    }
+                }
+                items(state.words) { word ->
+                    WordCard(word = word) {
+                        viewModel.handleIntent(HomeScreenIntent.DeleteWords(word))
+                    }
+                }
+                items(state.words) { word ->
+                    WordCard(word = word) {
+                        viewModel.handleIntent(HomeScreenIntent.DeleteWords(word))
+                    }
+                }
+                items(state.words) { word ->
+                    WordCard(word = word) {
+                        viewModel.handleIntent(HomeScreenIntent.DeleteWords(word))
+                    }
+                }
+                items(state.words) { word ->
+                    WordCard(word = word) {
+                        viewModel.handleIntent(HomeScreenIntent.DeleteWords(word))
+                    }
+                }
+                items(state.words) { word ->
                     WordCard(word = word) {
                         viewModel.handleIntent(HomeScreenIntent.DeleteWords(word))
                     }

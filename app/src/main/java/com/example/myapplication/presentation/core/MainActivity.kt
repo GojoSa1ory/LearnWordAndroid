@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
@@ -31,30 +30,24 @@ class MainActivity : ComponentActivity() {
             androidContext(this@MainActivity)
             modules(dataModule, domainModule, appDi)
         }
+
         setContent {
+
+            val navController = rememberNavController()
+
             MyApplicationTheme {
-                Box(modifier = Modifier.windowInsetsPadding(WindowInsets.safeDrawing)) {
-                    MainScreen()
+                Scaffold(
+                    modifier = Modifier.windowInsetsPadding(WindowInsets.safeDrawing),
+                    bottomBar = { BottomNavBar(navController = navController) }
+                ) { innerPadding ->
+                    AppNavHost(
+                        navController = navController,
+                        modifier = Modifier.padding(innerPadding)
+                    )
                 }
+
             }
         }
-    }
-}
-
-@Composable
-fun MainScreen(
-    modifier: Modifier = Modifier
-) {
-    val navController = rememberNavController()
-
-
-    Scaffold(
-        bottomBar = { BottomNavBar(navController = navController) }
-    ) { padding ->
-        AppNavHost(
-            navController = navController,
-            modifier = Modifier.padding(padding)
-        )
     }
 }
 
@@ -62,5 +55,4 @@ fun MainScreen(
 @Composable
 @Preview(showBackground = true)
 fun PreviewMainScreen() {
-    MainScreen()
 }

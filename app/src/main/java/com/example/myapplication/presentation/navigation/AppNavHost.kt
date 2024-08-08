@@ -15,6 +15,7 @@ fun AppNavHost(
     modifier: Modifier = Modifier
 ) {
     NavHost(
+        modifier = modifier,
         navController = navController,
         startDestination = BottomNavBarScreenModel.Home.route,
     ) {
