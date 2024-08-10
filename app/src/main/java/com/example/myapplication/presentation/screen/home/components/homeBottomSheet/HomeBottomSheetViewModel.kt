@@ -59,7 +59,8 @@ class HomeBottomSheetViewModel(
         val item = WordModel(
             mainWord = wordValue,
             translatedWord = translatedWordValue,
-            wordDescription = descriptionWordValue
+            wordDescription = descriptionWordValue,
+            languageId = 0
         )
 
         viewModelScope.launch {

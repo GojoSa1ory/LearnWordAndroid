@@ -37,6 +37,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myapplication.domain.models.WordAndLanguageModel
 import com.example.myapplication.domain.models.WordModel
 import com.example.myapplication.presentation.core.ui.theme.MediumGray
 import kotlinx.coroutines.launch
@@ -46,7 +47,7 @@ import kotlin.math.roundToInt
 @Composable
 fun WordCard(
     modifier: Modifier = Modifier,
-    word: WordModel,
+    word: WordAndLanguageModel,
     onRemove: () -> Unit,
 ) {
 
@@ -82,7 +83,7 @@ fun WordCard(
         ) {
             Text(
                 modifier = Modifier.padding(bottom = 4.dp),
-                text = "Language",
+                text = word.language.languageName,
                 style = TextStyle(
                     color = Color.Gray,
                     fontSize = 17.sp,
@@ -91,7 +92,7 @@ fun WordCard(
             )
 
             Text(
-                text = word.mainWord,
+                text = word.word.mainWord,
                 style = TextStyle(
                     color = Color.Black,
                     fontSize = 23.sp,
@@ -101,7 +102,7 @@ fun WordCard(
 
             Text(
                 modifier = Modifier.padding(top = 5.dp),
-                text = word.translatedWord,
+                text = word.word.translatedWord,
                 style = TextStyle(
                     color = Color.Gray,
                     fontSize = 18.sp,
@@ -117,7 +118,7 @@ fun WordCard(
                     .background(Color.DarkGray)
             )
 
-            word.wordDescription?.let { des ->
+            word.word.wordDescription?.let { des ->
 
                 if (des != "") {
                     Text(

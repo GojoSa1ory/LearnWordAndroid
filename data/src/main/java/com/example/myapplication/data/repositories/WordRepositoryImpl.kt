@@ -1,8 +1,14 @@
 package com.example.myapplication.data.repositories
 
 import com.example.myapplication.data.daos.WordDao
-import com.example.myapplication.data.model.errors.DatabaseErrors
-import com.example.myapplication.data.mapper.WordMapper
+import com.example.myapplication.data.entities.LanguageAndWordsEntity
+import com.example.myapplication.data.entities.WordAndLanguageEntity
+import com.example.myapplication.data.entities.WordEntity
+import com.example.myapplication.data.entities.errors.DatabaseErrors
+import com.example.myapplication.data.mapper.mapToEntity
+import com.example.myapplication.data.mapper.mapToModel
+import com.example.myapplication.domain.models.LanguageAndWordsModel
+import com.example.myapplication.domain.models.WordAndLanguageModel
 import com.example.myapplication.domain.models.WordModel
 import com.example.myapplication.domain.repositories.WordRepository
 import kotlinx.coroutines.Dispatchers
@@ -16,47 +22,47 @@ class WordRepositoryImpl(private val service: WordDao):
     override suspend fun create(item: WordModel): Result<Long> {
         return withContext(Dispatchers.IO) {
             try {
-                val word = WordMapper().mapToEntityForCreate(item)
+                val word = WordModel.mapToEntity(item, isForCreate = true)
                 val res = service.create(word)
                 Result.success(res)
             } catch (e: Exception) {
-                Result.failure(DatabaseErrors.CreateFailed)
+                Result.failure(DatabaseErrors.CreateFailed(message = e.localizedMessage ?: "Create failed"))
             }
         }
     }
 
-    override suspend fun read(): Result<Flow<List<WordModel>>> {
+    override suspend fun read(): Result<Flow<List<WordAndLanguageModel>>> {
         return try {
             val res = service.read()
 
-            val words: Flow<List<WordModel>> = res.map { data ->
-                data.map { word ->
-                    WordMapper().mapToModel(word)
+            val languageAndWordsModel = res.map { data ->
+                data.map { t ->
+                    WordAndLanguageEntity.mapToModel(t)
                 }
             }
 
-            Result.success(words)
+            Result.success(languageAndWordsModel)
         } catch(e: Exception) {
-            Result.failure(DatabaseErrors.ReadFailed)
+            Result.failure(DatabaseErrors.ReadFailed(message = e.localizedMessage ?: "Read failed"))
         }
     }
 
     override suspend fun update(item: WordModel): Result<Int> {
         return try {
 
-            val word = WordMapper().mapToEntity(item)
+            val word = WordModel.mapToEntity(item, isForCreate = false)
 
             val res = service.update(word)
             Result.success(res)
         } catch(e: Exception) {
-            Result.failure(DatabaseErrors.UpdateFailed)
+            Result.failure(DatabaseErrors.UpdateFailed(message = e.localizedMessage ?: "Update failed"))
         }
     }
 
     override suspend fun delete(item: WordModel): Result<Int> {
         return withContext(Dispatchers.IO) {
             try {
-                val word = WordMapper().mapToEntity(item)
+                val word = WordModel.mapToEntity(item, isForCreate = false)
                 val res = service.delete(word)
                 Result.success(res)
             } catch(e: Exception) {
@@ -65,19 +71,19 @@ class WordRepositoryImpl(private val service: WordDao):
         }
     }
 
-    override suspend fun search(query: String): Result<Flow<List<WordModel>>> {
+    override suspend fun search(query: String): Result<Flow<List<WordAndLanguageModel>>> {
         return try {
             val res = service.search(query)
 
-            val words = res.map { data ->
-                data.map { word ->
-                    WordMapper().mapToModel(word)
+            val languageAndWordsModel = res.map { data ->
+                data.map { langWords ->
+                    WordAndLanguageEntity.mapToModel(langWords)
                 }
             }
 
-            Result.success(words)
+            Result.success(languageAndWordsModel)
         } catch(e: Exception) {
-            Result.failure(DatabaseErrors.ReadFailed)
+            Result.failure(DatabaseErrors.ReadFailed(message = e.localizedMessage ?: "Search failed"))
         }
     }
 

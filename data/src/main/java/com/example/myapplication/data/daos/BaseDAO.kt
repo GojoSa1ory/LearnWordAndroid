@@ -8,15 +8,15 @@ import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface BaseDAO<T> {
+interface BaseDAO<R, I> {
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    fun create (item: T): Long
+    fun create (item: I): Long
 
-    fun read (): Flow<List<T>>
+    fun read (): Flow<List<R>>
 
     @Update
-    fun update (item: T): Int
+    fun update (item: I): Int
 
     @Delete
-    fun delete (item: T): Int
+    fun delete (item: I): Int
 }

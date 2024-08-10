@@ -1,33 +1,33 @@
 package com.example.myapplication.data.mapper
 
-import com.example.myapplication.data.model.WordEntity
+import com.example.myapplication.data.entities.WordEntity
 import com.example.myapplication.domain.models.WordModel
 
-class WordMapper {
-
-    fun mapToModel(word: WordEntity): WordModel {
-        return WordModel(
-            _id = word._id,
+fun WordModel.Companion.mapToEntity (word: WordModel, isForCreate: Boolean): WordEntity {
+    return if (isForCreate) {
+        WordEntity(
             mainWord = word.mainWord,
             translatedWord = word.translatedWord,
-            wordDescription = word.wordDescription
-        )
-    }
-
-    fun mapToEntity(word: WordModel): WordEntity {
-        return WordEntity(
-            _id = word._id ?: 0,
             wordDescription = word.wordDescription,
-            translatedWord = word.translatedWord,
-            mainWord = word.mainWord
+            languageId = word.languageId
         )
-    }
-
-    fun mapToEntityForCreate(word: WordModel): WordEntity {
-        return WordEntity(
+    } else {
+        WordEntity(
+            wordId = word.wordId,
+            mainWord = word.mainWord,
+            translatedWord = word.translatedWord,
             wordDescription = word.wordDescription,
-            translatedWord = word.translatedWord,
-            mainWord = word.mainWord
+            languageId = word.languageId
         )
     }
+}
+
+fun WordEntity.Companion.mapToModel (word: WordEntity): WordModel {
+    return WordModel(
+        wordId = word.wordId,
+        mainWord = word.mainWord,
+        translatedWord = word.translatedWord,
+        wordDescription = word.wordDescription,
+        languageId = word.languageId
+    )
 }

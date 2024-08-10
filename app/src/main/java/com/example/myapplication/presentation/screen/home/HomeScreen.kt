@@ -3,10 +3,8 @@ package com.example.myapplication.presentation.screen.home
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -24,10 +22,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myapplication.presentation.screen.home.components.homeBottomSheet.HomeBottomSheet
 import com.example.myapplication.presentation.shared.AddButton
 import com.example.myapplication.presentation.shared.SearchInputView
 import com.example.myapplication.presentation.shared.WordCard
-import com.example.myapplication.presentation.screen.home.components.homeBottomSheet.HomeBottomSheet
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -47,87 +45,58 @@ fun HomeScreen(
         modifier = Modifier
             .background(Color.White)
             .padding(horizontal = 15.dp)
-//            .padding(
-//                bottom = WindowInsets
-//                    .navigationBars
-//                    .asPaddingValues()
-//                    .calculateBottomPadding() + 24.dp,
-//            )
             .fillMaxSize()
     ) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(15.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
 
-            item {
-                SearchInputView(inputValue = viewModel.request) { value ->
-                    viewModel.updateRequest(value)
-                    viewModel.handleIntent(HomeScreenIntent.Search(viewModel.request))
-                }
+        Column {
+
+            SearchInputView(
+                inputValue = viewModel.request,
+                modifier = Modifier.padding(bottom = 20.dp)
+            ) { value ->
+                viewModel.updateRequest(value)
+                viewModel.handleIntent(HomeScreenIntent.Search(viewModel.request))
             }
 
-            if(state.isLoading) {
-                item {
-                    Text(
-                        text ="Loading",
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                }
-            } else if (state.error != null) {
-                item {
-                    state.error?.let { error ->
-                        Text(error)
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(15.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+
+                if (state.isLoading) {
+                    item {
+                        Text(
+                            text = "Loading",
+                            fontSize = 24.sp,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    }
+                } else if (state.error != null) {
+                    item {
+                        state.error?.let { error ->
+                            Text(error)
+                        }
+                    }
+                } else if (state.words.isEmpty()) {
+                    item {
+                        Text(
+                            text = "No words",
+                            fontSize = 24.sp,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    }
+                } else {
+                    items(state.words, key = { word -> word.word.wordId }) { word ->
+                        WordCard(word = word) {
+                            viewModel.handleIntent(HomeScreenIntent.DeleteWords(word.word))
+                        }
                     }
                 }
-            } else if (state.words.isEmpty()) {
-                item {
-                    Text(
-                        text ="No words",
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                }
-            } else {
-                items(state.words, key = { word -> word._id }) { word ->
-                    WordCard(word = word) {
-                        viewModel.handleIntent(HomeScreenIntent.DeleteWords(word))
-                    }
-                }
-                items(state.words) { word ->
-                    WordCard(word = word) {
-                        viewModel.handleIntent(HomeScreenIntent.DeleteWords(word))
-                    }
-                }
-                items(state.words) { word ->
-                    WordCard(word = word) {
-                        viewModel.handleIntent(HomeScreenIntent.DeleteWords(word))
-                    }
-                }
-                items(state.words) { word ->
-                    WordCard(word = word) {
-                        viewModel.handleIntent(HomeScreenIntent.DeleteWords(word))
-                    }
-                }
-                items(state.words) { word ->
-                    WordCard(word = word) {
-                        viewModel.handleIntent(HomeScreenIntent.DeleteWords(word))
-                    }
-                }
-                items(state.words) { word ->
-                    WordCard(word = word) {
-                        viewModel.handleIntent(HomeScreenIntent.DeleteWords(word))
-                    }
-                }
-                items(state.words) { word ->
-                    WordCard(word = word) {
-                        viewModel.handleIntent(HomeScreenIntent.DeleteWords(word))
-                    }
-                }
+
             }
+
 
         }
 
@@ -140,7 +109,7 @@ fun HomeScreen(
             isBottomSheetVisible = true
         }
 
-        if(isBottomSheetVisible) {
+        if (isBottomSheetVisible) {
 
             HomeBottomSheet {
                 isBottomSheetVisible = false

@@ -23,6 +23,7 @@ fun SearchInputView (
     onChange: (req: String) -> Unit
 ) {
     Row(
+        modifier = modifier,
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {

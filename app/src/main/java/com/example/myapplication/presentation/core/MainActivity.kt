@@ -25,6 +25,7 @@ import org.koin.core.context.startKoin
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        deleteDatabase("learnWord-database")
         enableEdgeToEdge()
         startKoin {
             androidContext(this@MainActivity)
@@ -34,6 +35,7 @@ class MainActivity : ComponentActivity() {
         setContent {
 
             val navController = rememberNavController()
+
 
             MyApplicationTheme {
                 Scaffold(
