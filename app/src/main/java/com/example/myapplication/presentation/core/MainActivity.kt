@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
             androidContext(this@MainActivity)
             modules(dataModule, domainModule, appDi)
         }
-
+//        deleteDatabase("learnWord-database")
         setContent {
 
             val navController = rememberNavController()

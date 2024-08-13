@@ -1,6 +1,6 @@
 package com.example.myapplication.data.mapper
 
-import com.example.myapplication.data.entities.LanguageAndWordsEntity
+import com.example.myapplication.data.entities.relationships.LanguageAndWordsEntity
 import com.example.myapplication.data.entities.LanguageEntity
 import com.example.myapplication.data.entities.WordEntity
 import com.example.myapplication.domain.models.LanguageAndWordsModel

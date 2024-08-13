@@ -13,7 +13,6 @@ fun WordModel.Companion.mapToEntity (word: WordModel, isForCreate: Boolean): Wor
         )
     } else {
         WordEntity(
-            wordId = word.wordId,
             mainWord = word.mainWord,
             translatedWord = word.translatedWord,
             wordDescription = word.wordDescription,
@@ -24,7 +23,6 @@ fun WordModel.Companion.mapToEntity (word: WordModel, isForCreate: Boolean): Wor
 
 fun WordEntity.Companion.mapToModel (word: WordEntity): WordModel {
     return WordModel(
-        wordId = word.wordId,
         mainWord = word.mainWord,
         translatedWord = word.translatedWord,
         wordDescription = word.wordDescription,

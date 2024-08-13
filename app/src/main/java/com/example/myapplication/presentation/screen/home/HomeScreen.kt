@@ -88,7 +88,7 @@ fun HomeScreen(
                         )
                     }
                 } else {
-                    items(state.words, key = { word -> word.word.wordId }) { word ->
+                    items(state.words, key = { word -> word.word.mainWord }) { word ->
                         WordCard(word = word) {
                             viewModel.handleIntent(HomeScreenIntent.DeleteWords(word.word))
                         }

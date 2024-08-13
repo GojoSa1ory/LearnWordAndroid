@@ -2,18 +2,12 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "d087d69c4751ae3e18054efbc5ff2952",
+    "identityHash": "05951c066680a15f70aeef4ab617909a",
     "entities": [
       {
         "tableName": "Words",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`wordId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `main_word` TEXT NOT NULL, `translated_word` TEXT NOT NULL, `word_description` TEXT, `language_id` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`main_word` TEXT NOT NULL, `translated_word` TEXT NOT NULL, `word_description` TEXT, `language_id_fk` INTEGER NOT NULL, PRIMARY KEY(`main_word`), FOREIGN KEY(`language_id_fk`) REFERENCES `Languages`(`langId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
-          {
-            "fieldPath": "wordId",
-            "columnName": "wordId",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
           {
             "fieldPath": "mainWord",
             "columnName": "main_word",
@@ -34,19 +28,41 @@
           },
           {
             "fieldPath": "languageId",
-            "columnName": "language_id",
+            "columnName": "language_id_fk",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           }
         ],
         "primaryKey": {
-          "autoGenerate": true,
+          "autoGenerate": false,
           "columnNames": [
-            "wordId"
+            "main_word"
           ]
         },
-        "indices": [],
-        "foreignKeys": []
+        "indices": [
+          {
+            "name": "index_Words_language_id_fk",
+            "unique": false,
+            "columnNames": [
+              "language_id_fk"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Words_language_id_fk` ON `${TABLE_NAME}` (`language_id_fk`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Languages",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "language_id_fk"
+            ],
+            "referencedColumns": [
+              "langId"
+            ]
+          }
+        ]
       },
       {
         "tableName": "Languages",
@@ -78,7 +94,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd087d69c4751ae3e18054efbc5ff2952')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '05951c066680a15f70aeef4ab617909a')"
     ]
   }
 }

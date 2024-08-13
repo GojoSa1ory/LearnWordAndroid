@@ -8,7 +8,7 @@ import com.example.myapplication.data.entities.LanguageEntity
 import com.example.myapplication.data.entities.WordEntity
 
 @Database(
-    version = 2,
+    version = 1,
     entities = [
         WordEntity::class,
         LanguageEntity::class,

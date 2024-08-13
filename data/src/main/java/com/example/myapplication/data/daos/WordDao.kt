@@ -3,8 +3,7 @@ package com.example.myapplication.data.daos
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
-import com.example.myapplication.data.entities.LanguageAndWordsEntity
-import com.example.myapplication.data.entities.WordAndLanguageEntity
+import com.example.myapplication.data.entities.relationships.WordAndLanguageEntity
 import com.example.myapplication.data.entities.WordEntity
 import kotlinx.coroutines.flow.Flow
 

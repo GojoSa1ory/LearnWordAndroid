@@ -1,13 +1,10 @@
 package com.example.myapplication.data.repositories
 
 import com.example.myapplication.data.daos.WordDao
-import com.example.myapplication.data.entities.LanguageAndWordsEntity
-import com.example.myapplication.data.entities.WordAndLanguageEntity
-import com.example.myapplication.data.entities.WordEntity
+import com.example.myapplication.data.entities.relationships.WordAndLanguageEntity
 import com.example.myapplication.data.entities.errors.DatabaseErrors
 import com.example.myapplication.data.mapper.mapToEntity
 import com.example.myapplication.data.mapper.mapToModel
-import com.example.myapplication.domain.models.LanguageAndWordsModel
 import com.example.myapplication.domain.models.WordAndLanguageModel
 import com.example.myapplication.domain.models.WordModel
 import com.example.myapplication.domain.repositories.WordRepository
