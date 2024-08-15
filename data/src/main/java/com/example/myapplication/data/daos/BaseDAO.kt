@@ -10,13 +10,13 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface BaseDAO<R, I> {
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    fun create (item: I): Long
+    suspend fun create (item: I): Long
 
     fun read (): Flow<List<R>>
 
-    @Update
-    fun update (item: I): Int
+    @Update(onConflict = OnConflictStrategy.ABORT)
+    suspend fun update (item: I): Int
 
     @Delete
-    fun delete (item: I): Int
+    suspend fun delete (item: I): Int
 }

@@ -3,6 +3,7 @@ package com.example.myapplication.data
 import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.example.myapplication.data.daos.LanguageDao
 import com.example.myapplication.data.daos.WordDao
 import com.example.myapplication.data.entities.LanguageEntity
 import com.example.myapplication.data.entities.WordEntity
@@ -20,4 +21,5 @@ import com.example.myapplication.data.entities.WordEntity
 )
 abstract class AppDatabase: RoomDatabase() {
     abstract fun wordDao(): WordDao
+    abstract fun languageDao(): LanguageDao
 }

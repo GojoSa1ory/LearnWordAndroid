@@ -17,32 +17,29 @@ import com.example.myapplication.presentation.core.ui.theme.MyApplicationTheme
 import com.example.myapplication.presentation.di.appDi
 import com.example.myapplication.presentation.di.dataModule
 import com.example.myapplication.presentation.di.domainModule
-import com.example.myapplication.presentation.navigation.AppNavHost
 import com.example.myapplication.presentation.navigation.BottomNavBar
+import com.example.myapplication.presentation.navigation.host.RootNavHost
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        deleteDatabase("learnWord-database")
         enableEdgeToEdge()
         startKoin {
             androidContext(this@MainActivity)
             modules(dataModule, domainModule, appDi)
         }
-//        deleteDatabase("learnWord-database")
         setContent {
 
             val navController = rememberNavController()
-
 
             MyApplicationTheme {
                 Scaffold(
                     modifier = Modifier.windowInsetsPadding(WindowInsets.safeDrawing),
                     bottomBar = { BottomNavBar(navController = navController) }
                 ) { innerPadding ->
-                    AppNavHost(
+                    RootNavHost(
                         navController = navController,
                         modifier = Modifier.padding(innerPadding)
                     )

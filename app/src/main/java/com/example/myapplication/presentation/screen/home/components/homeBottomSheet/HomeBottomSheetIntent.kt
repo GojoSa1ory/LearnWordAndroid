@@ -4,4 +4,5 @@ import com.example.myapplication.domain.models.WordModel
 
 sealed class HomeBottomSheetIntent {
     object AddWord: HomeBottomSheetIntent()
+    object GetLanguages: HomeBottomSheetIntent()
 }

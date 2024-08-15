@@ -37,6 +37,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myapplication.domain.models.LanguageModel
 import com.example.myapplication.domain.models.WordAndLanguageModel
 import com.example.myapplication.domain.models.WordModel
 import com.example.myapplication.presentation.core.ui.theme.MediumGray
@@ -47,93 +48,73 @@ import kotlin.math.roundToInt
 @Composable
 fun WordCard(
     modifier: Modifier = Modifier,
-    word: WordAndLanguageModel,
-    onRemove: () -> Unit,
+    word: WordModel,
+    language: LanguageModel
 ) {
 
-    val swipeState = rememberSwipeToDismissBoxState(
-        confirmValueChange = { state ->
-            if(state == SwipeToDismissBoxValue.EndToStart) {
-                onRemove()
-                true
-            } else {
-                false
-            }
-        }
-    )
-
-    SwipeToDismissBox(state = swipeState, enableDismissFromStartToEnd = false, backgroundContent = {
-        Box (
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.CenterEnd
-        ) {
-            Icon(
-                imageVector = Icons.Filled.Delete,
-                contentDescription = null,
-                modifier = Modifier.size(35.dp)
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(shape = RoundedCornerShape(size = 10.dp))
+            .background(MediumGray)
+            .padding(10.dp),
+    ) {
+        Text(
+            modifier = Modifier.padding(bottom = 4.dp),
+            text = language.languageName,
+            style = TextStyle(
+                color = Color.Gray,
+                fontSize = 17.sp,
+                fontWeight = FontWeight.Medium
             )
-        }
-    }) {
-        Column(
+        )
+
+        Text(
+            text = word.mainWord,
+            style = TextStyle(
+                color = Color.Black,
+                fontSize = 23.sp,
+                fontWeight = FontWeight.Bold
+            )
+        )
+
+        Text(
+            modifier = Modifier.padding(top = 5.dp),
+            text = word.translatedWord,
+            style = TextStyle(
+                color = Color.Gray,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold
+            )
+        )
+
+        Spacer(
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(shape = RoundedCornerShape(size = 10.dp))
-                .background(MediumGray)
-                .padding(10.dp),
-        ) {
-            Text(
-                modifier = Modifier.padding(bottom = 4.dp),
-                text = word.language.languageName,
-                style = TextStyle(
-                    color = Color.Gray,
-                    fontSize = 17.sp,
-                    fontWeight = FontWeight.Medium
-                )
-            )
+                .padding(vertical = 10.dp)
+                .height(1.dp)
+                .background(Color.DarkGray)
+        )
 
-            Text(
-                text = word.word.mainWord,
-                style = TextStyle(
-                    color = Color.Black,
-                    fontSize = 23.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            )
+        word.wordDescription?.let { des ->
 
-            Text(
-                modifier = Modifier.padding(top = 5.dp),
-                text = word.word.translatedWord,
-                style = TextStyle(
-                    color = Color.Gray,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            )
-
-            Spacer(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 10.dp)
-                    .height(1.dp)
-                    .background(Color.DarkGray)
-            )
-
-            word.word.wordDescription?.let { des ->
-
-                if (des != "") {
-                    Text(
-                        text = des,
-                        style = TextStyle(
-                            color = Color.DarkGray,
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold
-                        )
+            if (des != "") {
+                Text(
+                    text = des,
+                    style = TextStyle(
+                        color = Color.DarkGray,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold
                     )
-                }
+                )
             }
         }
     }
+
+
 }
+
+
 
 
 //@Preview(showBackground = true)

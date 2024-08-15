@@ -11,15 +11,8 @@ fun LanguageEntity.Companion.mapToModel (lang: LanguageEntity): LanguageModel  {
     )
 }
 
-fun LanguageModel.Companion.mapToEntity(lang: LanguageModel, isForCreate: Boolean): LanguageEntity {
-    return if(isForCreate) {
-        LanguageEntity(
+fun LanguageModel.Companion.mapToEntity(lang: LanguageModel): LanguageEntity {
+    return LanguageEntity(
             languageName = lang.languageName
-        )
-    } else {
-        LanguageEntity(
-            langId = lang.langId,
-            languageName = lang.languageName
-        )
-    }
+    )
 }

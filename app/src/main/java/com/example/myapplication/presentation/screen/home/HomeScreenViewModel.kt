@@ -6,17 +6,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myapplication.domain.models.LanguageModel
 import com.example.myapplication.domain.models.WordModel
-import com.example.myapplication.domain.useсase.wordusecase.DeleteWordUseCase
-import com.example.myapplication.domain.useсase.wordusecase.GetWordsUseCase
-import com.example.myapplication.domain.useсase.wordusecase.SearchWordUseCase
 import kotlinx.coroutines.launch
 
 
 class HomeScreenViewModel(
-    private val getWordsUseCase: com.example.myapplication.domain.useсase.wordusecase.GetWordsUseCase,
-    private val deleteWordsUseCase: com.example.myapplication.domain.useсase.wordusecase.DeleteWordUseCase,
-    private val searchWordUseCase: com.example.myapplication.domain.useсase.wordusecase.SearchWordUseCase
+    private val getWordsUseCase: com.example.myapplication.domain.useсase.word.GetWordsUseCase,
+    private val deleteWordsUseCase: com.example.myapplication.domain.useсase.word.DeleteWordUseCase,
+    private val searchWordUseCase: com.example.myapplication.domain.useсase.word.SearchWordUseCase
 ) : ViewModel() {
 
     private val _state = mutableStateOf(HomeScreenState())
@@ -25,11 +23,8 @@ class HomeScreenViewModel(
     var request by mutableStateOf("")
         private set
 
-    fun updateRequest (value: String) {
-        request = value
-    }
 
-    fun handleIntent (intent: HomeScreenIntent) {
+    fun handleIntent(intent: HomeScreenIntent) {
         when (intent) {
             is HomeScreenIntent.LoadWords -> loadWords()
             is HomeScreenIntent.DeleteWords -> deleteWord(intent.word)
@@ -37,7 +32,7 @@ class HomeScreenViewModel(
         }
     }
 
-    private fun loadWords () {
+    private fun loadWords() {
         _state.value = _state.value.copy(isLoading = true)
 
         viewModelScope.launch {
@@ -45,10 +40,12 @@ class HomeScreenViewModel(
 
             res.onSuccess { data ->
                 data.collect { words ->
+
                     _state.value = _state.value.copy(
                         isLoading = false,
                         words = words
                     )
+
                 }
             }
 
@@ -63,7 +60,7 @@ class HomeScreenViewModel(
 
     }
 
-    private fun deleteWord (word: WordModel) {
+    private fun deleteWord(word: WordModel) {
         viewModelScope.launch {
             val res = deleteWordsUseCase.execute(word)
 
@@ -73,12 +70,12 @@ class HomeScreenViewModel(
         }
     }
 
-    private fun search (request: String) {
+    private fun search(request: String) {
         viewModelScope.launch {
             val res = searchWordUseCase.execute(request)
 
             res.onSuccess { data ->
-                data.collect {word ->
+                data.collect { word ->
                     _state.value = _state.value.copy(
                         words = word
                     )
@@ -92,4 +89,9 @@ class HomeScreenViewModel(
             }
         }
     }
+
+    fun updateRequest(value: String) {
+        request = value
+    }
+
 }

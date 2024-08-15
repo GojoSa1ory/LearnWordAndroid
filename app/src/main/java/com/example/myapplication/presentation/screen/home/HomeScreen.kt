@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import com.example.myapplication.presentation.screen.home.components.homeBottomSheet.HomeBottomSheet
 import com.example.myapplication.presentation.shared.AddButton
 import com.example.myapplication.presentation.shared.SearchInputView
+import com.example.myapplication.presentation.shared.SwipeToDismissRow
 import com.example.myapplication.presentation.shared.WordCard
 import org.koin.androidx.compose.koinViewModel
 
@@ -89,8 +90,13 @@ fun HomeScreen(
                     }
                 } else {
                     items(state.words, key = { word -> word.word.mainWord }) { word ->
-                        WordCard(word = word) {
+                        SwipeToDismissRow(onRemove = {
                             viewModel.handleIntent(HomeScreenIntent.DeleteWords(word.word))
+                        }) {
+                            WordCard(
+                                word = word.word,
+                                language = word.language
+                            )
                         }
                     }
                 }

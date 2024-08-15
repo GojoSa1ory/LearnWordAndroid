@@ -1,4 +1,4 @@
-package com.example.myapplication.domain.useсase.wordusecase
+package com.example.myapplication.domain.useсase.word
 
 import com.example.myapplication.domain.models.WordModel
 import com.example.myapplication.domain.repositories.WordRepository

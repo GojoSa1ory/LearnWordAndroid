@@ -1,7 +1,6 @@
 package com.example.myapplication.presentation.navigation
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.myapplication.presentation.navigation.graphs.RootNavigationGraph
 
 @Composable
 fun BottomNavBar(
@@ -34,40 +33,44 @@ fun BottomNavBar(
 ) {
 
     val screens = listOf(
-        BottomNavBarScreenModel.Home,
-        BottomNavBarScreenModel.Games,
-        BottomNavBarScreenModel.Languages,
+        RootNavigationGraph.Home,
+        RootNavigationGraph.Games,
+        RootNavigationGraph.Languages,
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     val currentScreen =
-        screens.find { it.route == currentDestination?.route } ?: BottomNavBarScreenModel.Home
+        screens.find { it.route == currentDestination?.route } ?: RootNavigationGraph.Home
 
-    Row(
+    val isBottomBarDestination = screens.any {it.route == currentDestination?.route}
 
-        horizontalArrangement = Arrangement.SpaceAround,
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(70.dp)
-            .background(color = Color.White)
-            .drawBehind {
-                drawLine(
-                    Color.LightGray,
-                    Offset(0f, 0f),
-                    Offset(size.width, 0f),
-                    3f
+
+    if(isBottomBarDestination) {
+        Row(
+            horizontalArrangement = Arrangement.SpaceAround,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(70.dp)
+                .background(color = Color.White)
+                .drawBehind {
+                    drawLine(
+                        Color.LightGray,
+                        Offset(0f, 0f),
+                        Offset(size.width, 0f),
+                        3f
+                    )
+                }
+
+        ) {
+            screens.forEach { screen ->
+                BottomNavItem(
+                    navController = navController,
+                    screen = screen,
+                    selected = currentScreen == screen
                 )
             }
-
-    ) {
-        screens.forEach { screen ->
-            BottomNavItem(
-                navController = navController,
-                screen = screen,
-                selected = currentScreen == screen
-            )
         }
     }
 
@@ -76,7 +79,7 @@ fun BottomNavBar(
 @Composable
 fun BottomNavItem(
     navController: NavHostController,
-    screen: BottomNavBarScreenModel,
+    screen: RootNavigationGraph,
     selected: Boolean
 ) {
     Column(

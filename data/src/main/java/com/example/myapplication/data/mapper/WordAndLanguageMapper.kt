@@ -21,7 +21,7 @@ fun WordAndLanguageEntity.Companion.mapToModel (wordAndLanguageEntity: WordAndLa
 fun WordAndLanguageModel.Companion.mapToEntity (wordAndLanguageModel: WordAndLanguageModel, isForCreate: Boolean): WordAndLanguageEntity {
 
     val word = WordModel.mapToEntity(wordAndLanguageModel.word, isForCreate = isForCreate)
-    val lang = LanguageModel.mapToEntity(wordAndLanguageModel.language, isForCreate = isForCreate)
+    val lang = LanguageModel.mapToEntity(wordAndLanguageModel.language)
 
     return WordAndLanguageEntity(
         word = word,
