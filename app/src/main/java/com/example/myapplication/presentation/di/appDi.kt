@@ -17,7 +17,7 @@ import com.example.myapplication.domain.useсase.word.GetWordsUseCase
 import com.example.myapplication.domain.useсase.word.SearchWordUseCase
 import com.example.myapplication.domain.useсase.word.UpdateWordUseCase
 import com.example.myapplication.presentation.screen.home.HomeScreenViewModel
-import com.example.myapplication.presentation.screen.home.components.homeBottomSheet.HomeBottomSheetViewModel
+import com.example.myapplication.presentation.screen.home.createword.CreateWordScreenViewModel
 import com.example.myapplication.presentation.screen.language.LanguageScreenViewModel
 import com.example.myapplication.presentation.screen.language.component.languagebottomsheet.LanguageBottomSheetViewModel
 import com.example.myapplication.presentation.screen.language.details.LanguageDetailsScreenViewModel
@@ -72,7 +72,7 @@ val appDi = module {
 
     //Home screen
     viewModel { HomeScreenViewModel(get(), get(), get()) }
-    viewModel { HomeBottomSheetViewModel(get(), get()) }
+    viewModel { CreateWordScreenViewModel(get(), get()) }
 
     //Language screen
     viewModel { LanguageScreenViewModel(get(), get()) }

@@ -1,31 +1,26 @@
 package com.example.myapplication.presentation.navigation.graphs
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.outlined.Menu
+import androidx.compose.material.icons.outlined.PlayArrow
+import androidx.compose.material.icons.outlined.Star
 import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class RootNavigationGraph(
-    val title: String,
-    val icon: ImageVector,
-    val route: String
+    val route: String,
+    val title: String? = null,
+    val icon: ImageVector? = null
 ) {
-    object Home: RootNavigationGraph(
-        route = "home_screen",
-        icon = Icons.Default.Home,
-        title = "Home"
+    object Words: RootNavigationGraph(
+        route = "words_screen"
     )
 
     object Games: RootNavigationGraph(
-        route = "games_screen",
-        icon = Icons.Default.PlayArrow,
-        title = "Games"
+        route = "games_screen"
     )
 
     object Languages: RootNavigationGraph(
         route = "languages_screen",
-        icon = Icons.Default.Menu,
-        title = "Languages"
     )
+
 }

@@ -13,16 +13,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.myapplication.presentation.screen.home.components.homeBottomSheet.HomeBottomSheet
 import com.example.myapplication.presentation.shared.AddButton
 import com.example.myapplication.presentation.shared.SearchInputView
 import com.example.myapplication.presentation.shared.SwipeToDismissRow
@@ -31,7 +27,8 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeScreenViewModel = koinViewModel()
+    viewModel: HomeScreenViewModel = koinViewModel(),
+    navigateToCreate: () -> Unit
 ) {
 
     LaunchedEffect(key1 = true) {
@@ -40,7 +37,7 @@ fun HomeScreen(
 
     val state by viewModel.viewState
 
-    var isBottomSheetVisible by remember { mutableStateOf(false) }
+//    var isBottomSheetVisible by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
@@ -112,15 +109,7 @@ fun HomeScreen(
                 .size(50.dp)
                 .align(Alignment.BottomEnd)
         ) {
-            isBottomSheetVisible = true
-        }
-
-        if (isBottomSheetVisible) {
-
-            HomeBottomSheet {
-                isBottomSheetVisible = false
-            }
-
+            navigateToCreate()
         }
 
 

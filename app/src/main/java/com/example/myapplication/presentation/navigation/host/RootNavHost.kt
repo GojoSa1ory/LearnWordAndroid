@@ -6,7 +6,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.myapplication.presentation.navigation.graphs.RootNavigationGraph
-import com.example.myapplication.presentation.screen.home.HomeScreen
 
 
 @Composable
@@ -18,20 +17,15 @@ fun RootNavHost (
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = RootNavigationGraph.Home.route
+        startDestination = RootNavigationGraph.Words.route
     ) {
-        composable(
-            route = RootNavigationGraph.Home.route
-        ) {
-            HomeScreen()
-        }
+
+        WordsNav(navHostController = navController)
 
         composable(route = RootNavigationGraph.Games.route) {
             
         }
 
-        composable(route = RootNavigationGraph.Languages.route) {
-            LanguageNavHost()
-        }
+        LanguageNav(navHostController = navController)
     }
 }
