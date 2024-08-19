@@ -20,10 +20,6 @@ class HomeScreenViewModel(
     private val _state = mutableStateOf(HomeScreenState())
     val viewState: State<HomeScreenState> = _state
 
-    var request by mutableStateOf("")
-        private set
-
-
     fun handleIntent(intent: HomeScreenIntent) {
         when (intent) {
             is HomeScreenIntent.LoadWords -> loadWords()
@@ -91,7 +87,9 @@ class HomeScreenViewModel(
     }
 
     fun updateRequest(value: String) {
-        request = value
+        _state.value = _state.value.copy(
+            searchValue = value
+        )
     }
 
 }

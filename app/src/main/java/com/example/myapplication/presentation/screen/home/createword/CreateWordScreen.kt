@@ -112,7 +112,7 @@ fun CreateWordScreen (
                 FilterChip(
                     modifier = Modifier
                         .size(50.dp),
-                    selected = model.languageId == it.langId,
+                    selected = state.languageId == it.langId,
                     onClick = { model.handleChangeLanguageId(it.langId) },
                     label = { Text(it.languageName, fontSize = 18.sp) }
                 )
@@ -125,7 +125,7 @@ fun CreateWordScreen (
                 shape = RoundedCornerShape(15.dp),
                 placeholder = { Text("Main word") },
                 singleLine = true,
-                value = model.mainWord,
+                value = state.mainWord,
                 onValueChange = { value ->
                     model.handleChangeMainWord(value)
                 }
@@ -142,7 +142,7 @@ fun CreateWordScreen (
                 shape = RoundedCornerShape(15.dp),
                 placeholder = { Text("Translated word") },
                 singleLine = true,
-                value = model.translatedWord,
+                value = state.translatedWord,
                 onValueChange = { value -> model.handleChangeTranslatedWord(value) }
             )
 
@@ -156,7 +156,7 @@ fun CreateWordScreen (
             shape = RoundedCornerShape(15.dp),
             placeholder = { Text("Description to word") },
             singleLine = false,
-            value = model.descriptionWord,
+            value = state.descriptionWord,
             onValueChange = { value -> model.handleChangeWordDescription(value) }
         )
 

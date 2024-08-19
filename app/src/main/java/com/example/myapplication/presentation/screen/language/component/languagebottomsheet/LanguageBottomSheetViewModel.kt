@@ -1,28 +1,20 @@
 package com.example.myapplication.presentation.screen.language.component.languagebottomsheet
 
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.domain.models.LanguageModel
 import com.example.myapplication.domain.useсase.language.CreateLanguageUseCase
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class LanguageBottomSheetViewModel(
     private val createLanguageUseCase: CreateLanguageUseCase
 ): ViewModel() {
 
-    var languageName by mutableStateOf("")
-        private set
+    private val _state = mutableStateOf(LanguageBottomSheetState())
+    var state: State<LanguageBottomSheetState> = _state
 
-    var errorMessage by mutableStateOf("")
-        private set
-
-    var isError by mutableStateOf(false)
-        private set
 
     fun handleIntent(intent: LanguageBottomSheetIntent) {
         when(intent) {
@@ -34,29 +26,36 @@ class LanguageBottomSheetViewModel(
         viewModelScope.launch {
 
             val langModel = LanguageModel(
-                languageName = languageName
+                languageName = _state.value.languageName
             )
 
             val res = createLanguageUseCase.execute(langModel)
 
             res.onFailure {
-                isError = true
-                errorMessage = it.localizedMessage?.toString().toString()
+
+                _state.value = _state.value.copy(
+                    isError = true,
+                    error = it.localizedMessage ?: "Error to create language"
+                )
             }
 
         }
     }
 
     fun handleLanguageNameChange(name: String) {
-        this.languageName = name
+        _state.value = _state.value.copy(
+            languageName = name
+        )
     }
 
     fun isRequiredFieldEmpty (): Boolean {
-        return languageName.equals("") || languageName.trim().equals("")
+        return _state.value.languageName.equals("") || _state.value.languageName.trim().equals("")
     }
 
     fun clearField () {
-        languageName = ""
+        _state.value = _state.value.copy(
+            languageName = ""
+        )
     }
 
 }

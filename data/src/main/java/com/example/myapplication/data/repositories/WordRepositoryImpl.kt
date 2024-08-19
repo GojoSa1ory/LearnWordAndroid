@@ -21,6 +21,7 @@ class WordRepositoryImpl(private val service: WordDao):
             try {
                 val word = WordModel.mapToEntity(item, isForCreate = true)
                 val res = service.create(word)
+
                 Result.success(res)
             } catch (e: Exception) {
                 Result.failure(DatabaseErrors.CreateFailed(message = e.localizedMessage ?: "Create failed"))

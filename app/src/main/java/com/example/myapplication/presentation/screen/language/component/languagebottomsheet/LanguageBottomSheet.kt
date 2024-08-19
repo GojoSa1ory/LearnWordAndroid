@@ -2,7 +2,6 @@ package com.example.myapplication.presentation.screen.language.component.languag
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -14,11 +13,9 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,9 +30,11 @@ fun LanguageBottomSheet(
     model: LanguageBottomSheetViewModel = koinViewModel(),
     onDismissRequest: () -> Unit
 ) {
-    val bottomSheetState = rememberModalBottomSheetState(
 
-    )
+    val state by model.state
+
+    val bottomSheetState = rememberModalBottomSheetState()
+
 
     ModalBottomSheet(
         onDismissRequest = {
@@ -58,8 +57,8 @@ fun LanguageBottomSheet(
                 modifier = Modifier.padding(bottom = 25.dp)
             )
 
-            if(model.isError) {
-                Text(text = model.errorMessage)
+            if(state.isError) {
+                Text(text = state.error)
             }
             Column {
 
@@ -67,7 +66,7 @@ fun LanguageBottomSheet(
                     shape = RoundedCornerShape(15.dp),
                     placeholder = { Text("Language name") },
                     singleLine = true,
-                    value = model.languageName,
+                    value = state.languageName,
                     onValueChange = model::handleLanguageNameChange
                 )
 
@@ -81,7 +80,7 @@ fun LanguageBottomSheet(
                 enabled = !model.isRequiredFieldEmpty(),
                 onClick = {
                     model.handleIntent(LanguageBottomSheetIntent.CreateLanguage)
-                    if (!model.isError) {
+                    if (!state.isError) {
                         model.clearField()
                         onDismissRequest()
                     }

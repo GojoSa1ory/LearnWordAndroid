@@ -7,5 +7,6 @@ import kotlinx.coroutines.flow.Flow
 data class HomeScreenState (
     val isLoading: Boolean = false,
     val words: List<WordAndLanguageModel> = emptyList(),
-    val error: String? = null
+    val error: String? = null,
+    val searchValue: String = ""
 ){}

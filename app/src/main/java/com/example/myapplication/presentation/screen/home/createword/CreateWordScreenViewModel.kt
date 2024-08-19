@@ -19,18 +19,6 @@ class CreateWordScreenViewModel(
     private val _state = mutableStateOf(CreateWordScreenState())
     var state: State<CreateWordScreenState> = _state
 
-    var mainWord by mutableStateOf("")
-        private set
-
-    var translatedWord by mutableStateOf("")
-        private set
-
-    var descriptionWord by mutableStateOf("")
-        private set
-
-    var languageId by mutableStateOf(0)
-        private set
-
     fun handelIntent(intent: CreateWordScreenIntent) {
         when(intent) {
             CreateWordScreenIntent.CreateWord -> createWord()
@@ -41,10 +29,10 @@ class CreateWordScreenViewModel(
     private fun createWord() {
 
         val word = WordModel(
-            mainWord = mainWord.trim(),
-            translatedWord = translatedWord.trim(),
-            wordDescription = descriptionWord.trim(),
-            languageId = languageId
+            mainWord = _state.value.mainWord.trim(),
+            translatedWord = _state.value.translatedWord.trim(),
+            wordDescription = _state.value.descriptionWord.trim(),
+            languageId = _state.value.languageId
         )
 
         viewModelScope.launch {
@@ -82,30 +70,40 @@ class CreateWordScreenViewModel(
     }
 
     fun checkRequiredFields(): Boolean {
-        return mainWord.trim().equals("") || translatedWord.trim().equals("") || languageId == 0
+        return _state.value.mainWord.trim().equals("") || _state.value.translatedWord.trim().equals("") || _state.value.languageId == 0
     }
 
     fun handleChangeMainWord(word: String) {
-        mainWord = word
+        _state.value = _state.value.copy(
+            mainWord = word
+        )
     }
 
     fun handleChangeTranslatedWord(word: String) {
-        translatedWord = word
+        _state.value = _state.value.copy(
+            translatedWord = word
+        )
     }
 
     fun handleChangeWordDescription(desc: String) {
-        descriptionWord = desc
+        _state.value = _state.value.copy(
+            descriptionWord = desc
+        )
     }
 
     fun handleChangeLanguageId(id: Int) {
-        languageId = id
+        _state.value = _state.value.copy(
+            languageId = id
+        )
     }
 
     fun clearFields() {
-        mainWord = ""
-        translatedWord = ""
-        descriptionWord = ""
-        languageId = 0
+        _state.value = _state.value.copy(
+            mainWord = "",
+            translatedWord = "",
+            descriptionWord = "",
+            languageId = 0
+        )
     }
 
 }

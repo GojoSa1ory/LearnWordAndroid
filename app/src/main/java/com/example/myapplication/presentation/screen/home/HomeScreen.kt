@@ -37,8 +37,6 @@ fun HomeScreen(
 
     val state by viewModel.viewState
 
-//    var isBottomSheetVisible by remember { mutableStateOf(false) }
-
     Box(
         modifier = Modifier
             .background(Color.White)
@@ -49,11 +47,11 @@ fun HomeScreen(
         Column {
 
             SearchInputView(
-                inputValue = viewModel.request,
+                inputValue = state.searchValue,
                 modifier = Modifier.padding(bottom = 20.dp)
             ) { value ->
                 viewModel.updateRequest(value)
-                viewModel.handleIntent(HomeScreenIntent.Search(viewModel.request))
+                viewModel.handleIntent(HomeScreenIntent.Search(state.searchValue))
             }
 
             LazyColumn(
