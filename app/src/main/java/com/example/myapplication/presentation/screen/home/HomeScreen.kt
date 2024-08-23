@@ -19,10 +19,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.myapplication.presentation.shared.AddButton
-import com.example.myapplication.presentation.shared.SearchInputView
-import com.example.myapplication.presentation.shared.SwipeToDismissRow
-import com.example.myapplication.presentation.shared.WordCard
+import com.example.ui.AddButton
+import com.example.ui.SearchInputView
+import com.example.ui.SwipeToDismissRow
+import com.example.ui.WordCard
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -46,7 +46,7 @@ fun HomeScreen(
 
         Column {
 
-            SearchInputView(
+            com.example.ui.SearchInputView(
                 inputValue = state.searchValue,
                 modifier = Modifier.padding(bottom = 20.dp)
             ) { value ->
@@ -85,10 +85,10 @@ fun HomeScreen(
                     }
                 } else {
                     items(state.words, key = { word -> word.word.mainWord }) { word ->
-                        SwipeToDismissRow(onRemove = {
+                        com.example.ui.SwipeToDismissRow(onRemove = {
                             viewModel.handleIntent(HomeScreenIntent.DeleteWords(word.word))
                         }) {
-                            WordCard(
+                            com.example.ui.WordCard(
                                 word = word.word,
                                 language = word.language
                             )
@@ -101,7 +101,7 @@ fun HomeScreen(
 
         }
 
-        AddButton(
+        com.example.ui.AddButton(
             modifier = Modifier
                 .padding(bottom = 10.dp)
                 .size(50.dp)

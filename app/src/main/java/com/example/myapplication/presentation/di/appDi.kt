@@ -1,7 +1,7 @@
 package com.example.myapplication.presentation.di
 
 import androidx.room.Room
-import com.example.myapplication.data.AppDatabase
+import com.example.database.AppDatabase
 import com.example.myapplication.data.repositories.LanguageRepositoryImpl
 import com.example.myapplication.data.repositories.WordRepositoryImpl
 import com.example.myapplication.domain.repositories.LanguageRepository

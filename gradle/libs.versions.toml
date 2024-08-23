@@ -10,14 +10,30 @@ activityCompose = "1.9.1"
 composeBom = "2024.06.00"
 javax = "1"
 
+navigationCompose = "2.7.7"
+kotlinXCorotunesCore = "1.7.0"
+room = "2.6.1"
 ksp = "2.0.0-1.0.23"
 appcompat = "1.7.0"
 material = "1.12.0"
 jetbrainsKotlinJvm = "2.0.0"
 constraintlayout = "2.1.4"
-roomVersion = "2.6.1"
+koin = "4.0.0-RC1"
+
 
 [libraries]
+
+navigationCompose = {group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose"}
+kotlinX = {module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinXCorotunesCore"}
+
+koin-android = {module = "io.insert-koin:koin-android", version.ref = "koin"}
+koin-compose = {module = "io.insert-koin:koin-androidx-compose", version.ref = "koin"}
+koin-core = {module = "io.insert-koin:koin-core", version.ref = "koin"}
+
+room = {group = "androidx.room", name = "room-runtime", version.ref = "room"}
+room-process = {group = "androidx.room", name = "room-compiler", version.ref = "room"}
+room-ktx = {group = "androidx.room", name = "room-ktx", version.ref = "room"}
+
 javax-inject = { group = "javax.inject", name = "javax.inject", version.ref = "javax" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -46,5 +62,5 @@ jetbrains-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", versi
 google-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
-androix-room = {id = 'androidx.room', version.ref = "roomVersion"}
+androix-room = {id = 'androidx.room', version.ref = "room"}
 

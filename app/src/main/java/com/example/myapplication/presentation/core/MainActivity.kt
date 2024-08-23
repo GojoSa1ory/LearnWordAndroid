@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import com.example.myapplication.presentation.core.ui.theme.MyApplicationTheme
+import com.example.constants.ui.theme.MyApplicationTheme
 import com.example.myapplication.presentation.di.appDi
 import com.example.myapplication.presentation.di.dataModule
 import com.example.myapplication.presentation.di.domainModule

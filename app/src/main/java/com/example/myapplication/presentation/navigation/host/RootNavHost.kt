@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.myapplication.presentation.navigation.graphs.RootNavigationGraph
+import com.example.word.navigation.navHost.WordNavigationHost
 
 
 @Composable
@@ -20,7 +21,9 @@ fun RootNavHost (
         startDestination = RootNavigationGraph.Words.route
     ) {
 
-        WordsNav(navHostController = navController)
+        composable(route = RootNavigationGraph.Words.route) {
+            WordNavigationHost(navHostController = navController)
+        }
 
         composable(route = RootNavigationGraph.Games.route) {
             

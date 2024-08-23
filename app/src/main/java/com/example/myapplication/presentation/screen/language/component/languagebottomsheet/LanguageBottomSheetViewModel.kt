@@ -1,5 +1,6 @@
 package com.example.myapplication.presentation.screen.language.component.languagebottomsheet
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -43,9 +44,13 @@ class LanguageBottomSheetViewModel(
     }
 
     fun handleLanguageNameChange(name: String) {
+
+        Log.d("langName:", name)
         _state.value = _state.value.copy(
             languageName = name
         )
+
+        Log.d("langName:", _state.value.languageName)
     }
 
     fun isRequiredFieldEmpty (): Boolean {

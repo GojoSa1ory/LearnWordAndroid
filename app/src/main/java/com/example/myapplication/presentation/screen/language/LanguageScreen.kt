@@ -22,9 +22,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.presentation.screen.language.component.languagebottomsheet.LanguageBottomSheet
-import com.example.myapplication.presentation.shared.AddButton
 import com.example.myapplication.presentation.shared.LanguageCard
-import com.example.myapplication.presentation.shared.SearchInputView
+import com.example.ui.AddButton
+import com.example.ui.SearchInputView
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -53,7 +53,7 @@ fun LanguageScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            SearchInputView(inputValue = model.searchReq) { req ->
+            com.example.ui.SearchInputView(inputValue = model.searchReq) { req ->
                 model.handleReqChange(req)
                 model.handleIntent(LanguageScreenIntent.SearchLanguage(model.searchReq))
             }
@@ -95,7 +95,7 @@ fun LanguageScreen(
 
         }
 
-        AddButton(
+        com.example.ui.AddButton(
             modifier = Modifier
                 .padding(bottom = 10.dp)
                 .size(50.dp)
