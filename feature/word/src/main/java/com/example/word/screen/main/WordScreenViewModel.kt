@@ -4,16 +4,16 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.usecase.DeleteWordUseCase
-import com.example.domain.usecase.GetWordWithLanguageUseCase
-import com.example.domain.usecase.SearchWordUseCase
+import com.example.domain.usecase.word.DeleteWordUseCase
+import com.example.domain.usecase.word.GetWordWithLanguageUseCase
+import com.example.domain.usecase.word.SearchWordUseCase
 
 import kotlinx.coroutines.launch
 
 class WordScreenViewModel(
     private val getWordWithLanguageUseCase: GetWordWithLanguageUseCase,
-    private val deleteWordUseCase: DeleteWordUseCase,
-    private val searchWordUseCase: SearchWordUseCase
+//    private val deleteWordUseCase: DeleteWordUseCase,
+//    private val searchWordUseCase: SearchWordUseCase
 ): ViewModel() {
 
     private val _state = mutableStateOf(WordScreenState())

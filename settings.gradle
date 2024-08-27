@@ -21,11 +21,10 @@ dependencyResolutionManagement {
 
 rootProject.name = "My Application"
 include ':app'
-include ':data'
-include ':domain'
-include ':core:database'
-include ':feature:word'
 include ':core:constants'
-include ':core:domain'
 include ':core:data'
-include ':core:sharedui'
+include ':core:database'
+include ':core:domain'
+include ':core:ui'
+include ':feature:word'
+include ':feature:language'

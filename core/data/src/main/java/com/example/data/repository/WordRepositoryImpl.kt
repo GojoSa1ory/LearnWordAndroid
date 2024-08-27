@@ -4,8 +4,8 @@ import com.example.database.daos.WordDao
 import com.example.database.entity.WordEntity
 import com.example.data.mapper.mapToEntity
 import com.example.data.mapper.mapToModel
-import com.example.domain.WordRepository
 import com.example.domain.model.WordModel
+import com.example.domain.repository.WordRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

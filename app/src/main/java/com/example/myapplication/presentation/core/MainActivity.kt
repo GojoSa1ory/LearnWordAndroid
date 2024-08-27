@@ -14,11 +14,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.example.constants.ui.theme.MyApplicationTheme
-import com.example.myapplication.presentation.di.appDi
-import com.example.myapplication.presentation.di.dataModule
-import com.example.myapplication.presentation.di.domainModule
+import com.example.data.di.dataModule
+import com.example.database.di.databaseModule
+import com.example.language.di.languageModule
+import com.example.myapplication.presentation.di.appModule
 import com.example.myapplication.presentation.navigation.BottomNavBar
 import com.example.myapplication.presentation.navigation.host.RootNavHost
+import com.example.word.di.wordModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -28,7 +30,13 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         startKoin {
             androidContext(this@MainActivity)
-            modules(dataModule, domainModule, appDi)
+            modules(
+                databaseModule,
+                dataModule,
+                appModule,
+                wordModule,
+                languageModule,
+            )
         }
         setContent {
 

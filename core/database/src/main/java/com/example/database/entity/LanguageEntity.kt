@@ -8,4 +8,6 @@ import androidx.room.PrimaryKey
 data class LanguageEntity (
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo(name = "language_name") val languageName: String
-)
+) {
+    companion object
+}

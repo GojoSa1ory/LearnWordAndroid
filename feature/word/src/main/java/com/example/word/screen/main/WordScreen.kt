@@ -19,15 +19,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.myapplication.presentation.shared.AddButton
-import com.example.myapplication.presentation.shared.SearchInputView
-import com.example.myapplication.presentation.shared.SwipeToDismissRow
-import com.example.myapplication.presentation.shared.WordCard
+import com.example.ui.AddButton
+import com.example.ui.SearchInputView
+import com.example.ui.SwipeToDismissRow
+import com.example.ui.WordCard
+import org.koin.androidx.compose.koinViewModel
+
 
 @Composable
 fun WordScreen(
-    viewModel: WordScreenViewModel = viewModel(),
+    viewModel: WordScreenViewModel = koinViewModel() ,
     navigateToCreate: () -> Unit
 ) {
 
@@ -47,7 +48,7 @@ fun WordScreen(
 
         Column {
 
-            com.example.myapplication.presentation.shared.SearchInputView(
+            SearchInputView(
                 inputValue = state.searchReq,
                 modifier = Modifier.padding(bottom = 20.dp)
             ) { value ->
@@ -84,10 +85,10 @@ fun WordScreen(
                     }
                 } else {
                     items(state.words, key = { word -> word.mainWord }) { word ->
-                        com.example.myapplication.presentation.shared.SwipeToDismissRow(onRemove = {
+                        SwipeToDismissRow(onRemove = {
                             viewModel.handleIntent(WordScreenIntent.DeleteWord(word))
                         }) {
-                            com.example.myapplication.presentation.shared.WordCard(
+                            WordCard(
                                 word = word,
                                 languageName = word.languageName
                             )
@@ -100,7 +101,7 @@ fun WordScreen(
 
         }
 
-        com.example.myapplication.presentation.shared.AddButton(
+        AddButton(
             modifier = Modifier
                 .padding(bottom = 10.dp)
                 .size(50.dp)
