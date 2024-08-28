@@ -1,6 +1,7 @@
 package com.example.myapplication.presentation.di
 
 import com.example.domain.usecase.language.GetLanguageUseCase
+import com.example.domain.usecase.word.CreateWordUseCase
 import com.example.domain.usecase.word.DeleteWordUseCase
 import com.example.domain.usecase.word.GetWordWithLanguageUseCase
 import com.example.domain.usecase.word.SearchWordUseCase
@@ -11,6 +12,7 @@ val appModule = module {
     factory { GetWordWithLanguageUseCase(get()) }
     factory { DeleteWordUseCase(get()) }
     factory { SearchWordUseCase(get()) }
+    factory { CreateWordUseCase(get()) }
 
     factory { GetLanguageUseCase(get()) }
 

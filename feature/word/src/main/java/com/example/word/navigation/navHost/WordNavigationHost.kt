@@ -21,7 +21,9 @@ fun NavGraphBuilder.wordScreens(navHostController: NavHostController) {
         }
     }
     composable(route = WordNavigationGraph.CreateWordScreen.route) {
-        CreateScreen()
+        CreateScreen {
+            navHostController.popBackStack()
+        }
     }
 }
 
