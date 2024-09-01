@@ -1,27 +1,23 @@
 package com.example.language.ui.screen.details
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.ui.WordCard
+import androidx.compose.ui.unit.sp
+import com.example.language.ui.screen.details.component.LanguageDetailsTopBar
+import com.example.ui.WordsList
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun LanguageDetailsScreen(
+    navigateBack: () -> Unit,
     model: LanguageDetailsScreenViewModel = koinViewModel(),
     id: Int
 ) {
@@ -36,23 +32,23 @@ fun LanguageDetailsScreen(
 
         modifier = Modifier.padding(horizontal = 15.dp),
         topBar = {
-            Row(
-                modifier = Modifier
-                    .padding(vertical = 15.dp)
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Button(onClick = { /*TODO*/ }) {
-                    Text("Back")
-                }
+            LanguageDetailsTopBar(
+                label = state.languageAndWords?.language
+                    ?.languageName ?: "Detail screen",
+                navigateBack = { navigateBack() },
+                deleteAction = {
+                    state.languageAndWords?.language?.let {
+                        model.handleIntent(
+                            intent = LanguageDetailsScreenIntent
+                                .DeleteLanguageAndWords(it)
+                        )
+                    }
 
-//                Text(text = state.languageAndWords?.language?.languageName ?: "Language Details")
-
-                Button(onClick = { /*TODO*/ }) {
-                    Text("Delete")
+                    if(!state.isError) {
+                        navigateBack()
+                    }
                 }
-            }
+            )
         }
     ) { paddingValues ->
         Column(
@@ -61,32 +57,28 @@ fun LanguageDetailsScreen(
                 .fillMaxSize()
         ) {
 
-            LazyColumn(
+            if (!state.isError && !state.isLoading) {
+                state.languageAndWords?.let { data ->
+                    WordsList(words = data.words) {
+                        model.handleIntent(intent = LanguageDetailsScreenIntent.DeleteWord(it))
+                    }
 
-            ) {
-                if (state.isLoading) {
-                    item {
-                        Text(text = "Loading")
-                    }
-                } else if (state.isError) {
-                    state.errorMessage?.let {
-                        item {
-                            Text(text = it)
-                        }
-                    }
-//                } else if (state.languageAndWords?.words?.isEmpty() == true) {
-//                    item {
-//                        Text(text = "No words")
-//                    }
-                } else {
-//                    state.languageAndWords?.let { data ->
-//                        items(data.words) { words ->
-//                            WordCard(word = words, language = words)
-//                        }
-//                    }
                 }
             }
 
+            if (state.isLoading) {
+                Text(
+                    text = "Loading",
+                    fontSize = 20.sp
+                )
+            }
+
+            if (state.isError) {
+                Text(
+                    text = state.errorMessage ?: "Error",
+                    fontSize = 20.sp
+                )
+            }
         }
     }
 

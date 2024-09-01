@@ -1,5 +1,6 @@
 package com.example.word.screen.create
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -20,7 +21,7 @@ class CreateScreenViewModel(
     fun handleIntent(intent: CreateScreenIntent) {
         when (intent) {
             CreateScreenIntent.CreateWord -> createWord()
-            CreateScreenIntent.GetLanguages -> TODO()
+            CreateScreenIntent.GetLanguages -> getLanguages()
         }
     }
 
@@ -55,12 +56,10 @@ class CreateScreenViewModel(
 
             res.onSuccess { data ->
 
-                data.collect { langs ->
-
+                data.collect {
                     _state.value = _state.value.copy(
-                        languages = langs
+                        languages = it
                     )
-
                 }
 
             }
@@ -101,8 +100,8 @@ class CreateScreenViewModel(
     }
 
     fun checkRequiredFields(): Boolean {
-        return state.value.mainWordValue.isEmpty() ||
-                state.value.translatedWordValue.isEmpty() ||
+        return state.value.mainWordValue.trim() == "" ||
+                state.value.translatedWordValue.trim() == "" ||
                 state.value.languageId == 0
     }
 

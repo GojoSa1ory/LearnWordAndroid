@@ -4,15 +4,15 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.domain.model.WordModel
 import com.example.domain.usecase.word.DeleteWordUseCase
 import com.example.domain.usecase.word.GetWordWithLanguageUseCase
-import com.example.domain.usecase.word.SearchWordUseCase
 
 import kotlinx.coroutines.launch
 
 class WordScreenViewModel(
     private val getWordWithLanguageUseCase: GetWordWithLanguageUseCase,
-//    private val deleteWordUseCase: DeleteWordUseCase,
+    private val deleteWordUseCase: DeleteWordUseCase,
 //    private val searchWordUseCase: SearchWordUseCase
 ): ViewModel() {
 
@@ -21,7 +21,7 @@ class WordScreenViewModel(
 
     fun handleIntent (intent: WordScreenIntent) {
         when(intent) {
-            is WordScreenIntent.DeleteWord -> TODO()
+            is WordScreenIntent.DeleteWord -> deleteWord(intent.word)
             is WordScreenIntent.GetWords -> getWords()
             is WordScreenIntent.SearchWord -> TODO()
         }
@@ -49,6 +49,12 @@ class WordScreenViewModel(
                 )
             }
 
+        }
+    }
+
+    private fun deleteWord(word: WordModel) {
+        viewModelScope.launch {
+            deleteWordUseCase.invoke(word)
         }
     }
 

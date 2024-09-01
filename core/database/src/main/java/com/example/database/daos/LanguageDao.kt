@@ -35,4 +35,12 @@ interface LanguageDao: BaseCRUDao<LanguageEntity> {
     """)
     suspend fun readLanguageWithWordsById (id: Int): LanguageAndWords
 
+    @Query("DELETE FROM Words WHERE lang_id_fk = :languageId")
+    suspend fun deleteWordsByLanguage(languageId: Int)
+
+    @Transaction
+    suspend fun deleteLanguageAndWords(item: LanguageEntity) {
+        delete(item)
+        deleteWordsByLanguage(item.id)
+    }
 }

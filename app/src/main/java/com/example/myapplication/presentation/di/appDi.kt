@@ -1,5 +1,8 @@
 package com.example.myapplication.presentation.di
 
+import com.example.domain.usecase.language.CreateLanguageUseCase
+import com.example.domain.usecase.language.DeleteLanguageUseCase
+import com.example.domain.usecase.language.GetLanguageAndWordsByIdUseCase
 import com.example.domain.usecase.language.GetLanguageUseCase
 import com.example.domain.usecase.word.CreateWordUseCase
 import com.example.domain.usecase.word.DeleteWordUseCase
@@ -15,7 +18,9 @@ val appModule = module {
     factory { CreateWordUseCase(get()) }
 
     factory { GetLanguageUseCase(get()) }
-
+    factory { CreateLanguageUseCase(get()) }
+    factory { GetLanguageAndWordsByIdUseCase(get()) }
+    factory { DeleteLanguageUseCase(get()) }
 //    single {
 //        Room.databaseBuilder(get(), AppDatabase::class.java, "learnWord-database")
 //            .build()

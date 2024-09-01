@@ -14,4 +14,6 @@ data class LanguageAndWords(
         entityColumn = "lang_id_fk"
     )
     val words: List<WordEntity>
-)
+) {
+    companion object
+}

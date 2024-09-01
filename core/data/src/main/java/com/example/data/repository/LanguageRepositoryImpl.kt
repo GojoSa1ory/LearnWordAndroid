@@ -4,6 +4,8 @@ import com.example.data.mapper.mapToEntity
 import com.example.data.mapper.mapToModel
 import com.example.database.daos.LanguageDao
 import com.example.database.entity.LanguageEntity
+import com.example.database.entity.relationships.LanguageAndWords
+import com.example.domain.model.LanguageAndWordsModel
 import com.example.domain.model.LanguageModel
 import com.example.domain.repository.LanguageRepository
 import kotlinx.coroutines.flow.Flow
@@ -48,12 +50,36 @@ class LanguageRepositoryImpl(
         TODO("Not yet implemented")
     }
 
+    override suspend fun readWithWordsById(id: Int): Result<LanguageAndWordsModel> {
+        return try {
+
+            val req = dao.readLanguageWithWordsById(id)
+
+            val res = LanguageAndWords.mapToModel(req)
+
+            Result.success(res)
+
+        } catch(ex: Exception) {
+            Result.failure(ex)
+        }
+    }
+
     override suspend fun update(item: LanguageModel): Result<Boolean> {
         TODO("Not yet implemented")
     }
 
     override suspend fun delete(item: LanguageModel): Result<Boolean> {
-        TODO("Not yet implemented")
+        return try {
+
+            val lang = LanguageModel.mapToEntity(item)
+
+            val req = dao.deleteLanguageAndWords(lang)
+
+            Result.success(true)
+
+        } catch (ex: Exception) {
+            Result.failure(ex)
+        }
     }
 
     override fun search(req: String): Result<Flow<List<LanguageModel>>> {

@@ -31,7 +31,8 @@ fun NavGraphBuilder.languageScreen(
         )
     ) {
         LanguageDetailsScreen(
-            id = it.arguments?.getInt(LANGUAGE_DETAIL_LANGID_ARG) ?: 1
+            id = it.arguments?.getInt(LANGUAGE_DETAIL_LANGID_ARG) ?: 1,
+            navigateBack = { navHostController.popBackStack() }
         )
     }
 }
