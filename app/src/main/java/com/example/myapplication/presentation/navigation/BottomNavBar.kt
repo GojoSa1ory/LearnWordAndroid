@@ -50,7 +50,7 @@ fun BottomNavBar(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(70.dp)
-                .background(color = Color.White)
+//                .background(color = Color.White)
                 .drawBehind {
                     drawLine(
                         Color.LightGray,
@@ -101,14 +101,14 @@ fun BottomNavItem(
         Icon(
             imageVector = icon,
             contentDescription = null,
-            tint = Color.Gray,
+//            tint = Color.Gray,
             modifier = Modifier
                 .width(35.dp)
                 .height(35.dp),
         )
         Text(
             text = title,
-            color = Color.Black,
+//            color = Color.Black,
             fontSize = 18.sp
         )
     }

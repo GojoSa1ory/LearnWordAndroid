@@ -35,12 +35,15 @@ fun WordScreen(
 
     Box(
         modifier = Modifier
-            .background(Color.White)
-            .padding(horizontal = 15.dp)
+//            .background(Color.White)
+
             .fillMaxSize()
     ) {
 
-        Column {
+        Column(
+            modifier = Modifier
+                .padding(horizontal = 15.dp)
+        ) {
 
             SearchInputView(
                 inputValue = state.searchReq,
@@ -68,7 +71,7 @@ fun WordScreen(
 
         AddButton(
             modifier = Modifier
-                .padding(bottom = 10.dp)
+                .padding(bottom = 10.dp, end = 15.dp)
                 .size(50.dp)
                 .align(Alignment.BottomEnd)
         ) {

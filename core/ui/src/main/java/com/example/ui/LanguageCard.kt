@@ -25,8 +25,6 @@ fun LanguageCard (
     onClick: () -> Unit
 ) {
 
-    val colors = mutableSetOf(Color.Cyan, Color.Red, Color.Magenta, MaterialTheme.colorScheme.secondary, MaterialTheme.colorScheme.inversePrimary)
-
     Column(
         modifier = Modifier
             .size(
@@ -34,7 +32,7 @@ fun LanguageCard (
                 height = 110.dp
             )
             .background(
-                color = colors.random(),
+                color = Color.Cyan,
                 shape = RoundedCornerShape(size = 15.dp)
             )
             .clickable {

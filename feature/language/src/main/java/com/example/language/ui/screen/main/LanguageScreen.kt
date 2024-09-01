@@ -42,13 +42,14 @@ fun LanguageScreen(
 
     Box(
         modifier = Modifier
-            .padding(horizontal = 15.dp)
-            .background(Color.White)
+//            .background(Color.White)
             .fillMaxSize(),
     ) {
 
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .padding(horizontal = 15.dp)
+                .fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -93,7 +94,7 @@ fun LanguageScreen(
 
         AddButton(
             modifier = Modifier
-                .padding(bottom = 10.dp)
+                .padding(bottom = 10.dp, end = 15.dp)
                 .size(50.dp)
                 .align(Alignment.BottomEnd)
         ) {

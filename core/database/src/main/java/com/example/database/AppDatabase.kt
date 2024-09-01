@@ -13,9 +13,6 @@ import com.example.database.entity.WordEntity
         WordEntity::class,
         LanguageEntity::class,
     ],
-//    autoMigrations = [
-//        AutoMigration (from = 1, to = 2)
-//    ],
     exportSchema = true
 )
 abstract class AppDatabase: RoomDatabase() {
