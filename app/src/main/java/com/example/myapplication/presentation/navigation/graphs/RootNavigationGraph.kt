@@ -6,6 +6,7 @@ import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material.icons.outlined.PlayArrow
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.example.game.navigation.graph.GameNavigationGraph
 import com.example.language.navigation.graph.LanguageNavigationGraph
 import com.example.word.navigation.graph.WordNavigationGraph
 
@@ -22,9 +23,9 @@ sealed class RootNavigationGraph (
     )
 
     object Games: RootNavigationGraph(
-        route = "Coming soon",
-        title = "Coming soon",
-        icon = Icons.Outlined.Build
+        route = GameNavigationGraph.ChooseGame().route,
+        title = GameNavigationGraph.ChooseGame().title,
+        icon = GameNavigationGraph.ChooseGame().icon
     )
 
     object MainLanguageScreen: RootNavigationGraph(

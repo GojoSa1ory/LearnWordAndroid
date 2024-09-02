@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import com.example.game.navigation.host.gameScreen
 import com.example.language.navigation.host.languageScreen
 import com.example.myapplication.presentation.navigation.graphs.RootNavigationGraph
 import com.example.word.navigation.navHost.wordScreens
@@ -23,5 +24,7 @@ fun RootNavHost (
         wordScreens(navHostController = navController)
 
         languageScreen(navHostController = navController)
+
+        gameScreen(navHostController = navController)
     }
 }

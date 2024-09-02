@@ -1,25 +1,18 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.jetbrains.compose.compiler)
-    alias(libs.plugins.google.ksp)
 }
 
 android {
-    namespace 'com.example.myapplication'
+    namespace 'com.example.game'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.example.myapplication"
         minSdk 27
-        targetSdk 34
-        versionCode 1
-        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary true
-        }
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -35,41 +28,20 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    buildFeatures {
-        compose true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion '1.5.1'
-    }
-    packaging {
-        resources {
-            excludes += '/META-INF/{AL2.0,LGPL2.1}'
-        }
-    }
 }
 
 dependencies {
 
+    implementation libs.koin.core
+    implementation libs.koin.android
+    implementation libs.koin.compose
+
     implementation libs.navigationCompose
     implementation libs.kotlinX
 
-    implementation libs.koin.android
-    implementation libs.koin.compose
-    implementation libs.koin.core
-
-    implementation libs.room
-    implementation libs.room.ktx
-
-    ksp(libs.room.process)
-
-    implementation project(':core:ui')
     implementation project(":core:domain")
-    implementation project(":core:database")
-    implementation project(":core:data")
     implementation project(":core:constants")
-    implementation project(":feature:word")
-    implementation project(":feature:language")
-    implementation project(":feature:game")
+    implementation project(":core:ui")
 
     implementation libs.androidx.core.ktx
     implementation libs.androidx.lifecycle.runtime.ktx
@@ -86,5 +58,5 @@ dependencies {
     androidTestImplementation libs.androidx.ui.test.junit4
     debugImplementation libs.androidx.ui.tooling
     debugImplementation libs.androidx.ui.test.manifest
-
+    implementation libs.androidx.appcompat
 }

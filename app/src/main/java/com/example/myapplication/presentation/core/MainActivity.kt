@@ -19,6 +19,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.constants.ui.theme.MyApplicationTheme
 import com.example.data.di.dataModule
 import com.example.database.di.databaseModule
+import com.example.game.di.gameModule
 import com.example.language.di.languageModule
 import com.example.myapplication.presentation.di.appModule
 import com.example.myapplication.presentation.navigation.BottomNavBar
@@ -39,6 +40,7 @@ class MainActivity : ComponentActivity() {
                 appModule,
                 wordModule,
                 languageModule,
+                gameModule
             )
         }
         setContent {

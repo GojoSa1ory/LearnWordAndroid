@@ -8,13 +8,14 @@ import androidx.navigation.navArgument
 import com.example.language.navigation.graph.LANGUAGE_DETAIL_LANGID_ARG
 import com.example.language.navigation.graph.LanguageNavigationGraph
 import com.example.language.ui.screen.details.LanguageDetailsScreen
+import com.example.language.ui.screen.main.LanguageScreen
 
 
 fun NavGraphBuilder.languageScreen(
     navHostController: NavHostController
 ) {
     composable(route = LanguageNavigationGraph.MainLanguageScreen().route) {
-        com.example.language.ui.screen.main.LanguageScreen { langId ->
+        LanguageScreen { langId ->
             navHostController.navigate(
                 LanguageNavigationGraph
                     .LanguageDetailsScreen.passLanguageId(langId)
