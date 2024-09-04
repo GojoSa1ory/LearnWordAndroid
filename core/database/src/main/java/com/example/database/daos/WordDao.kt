@@ -27,4 +27,9 @@ interface WordDao: BaseCRUDao<WordEntity> {
     @Query("SELECT * FROM Words")
     fun readWithLanguages(): Flow<List<WordAndLanguages>>
 
+    @Query("""
+        SELECT * FROM Words
+        WHERE lang_id_fk == :languageId
+    """)
+    fun readWordsByLanguage(languageId: Int): Flow<List<WordEntity>>
 }

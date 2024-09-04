@@ -6,6 +6,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 const val CHOOSE_RIGHT_VARIANT_MODULE_ID = "id"
 const val ENTER_TRANSLATE_MODULE_ID = "id"
+const val CORRECT_ANSWERS = "correct_answers"
+const val WORDS_COUNT = "words_count"
 
 sealed class GameNavigationGraph(
     val title: String,
@@ -39,6 +41,15 @@ sealed class GameNavigationGraph(
     ) {
         fun passId(id: Int): String {
             return EnterTranslate.route.replace(oldValue = "{${CHOOSE_RIGHT_VARIANT_MODULE_ID}}", newValue = id.toString())
+        }
+    }
+
+    data object StatsScreen: GameNavigationGraph(
+        route = "stats_screen/{$CORRECT_ANSWERS}/{$WORDS_COUNT}",
+        title = "Stats screen"
+    ) {
+        fun passArguments(count: Int, wordsCount: Int): String {
+            return "stats_screen/${count}/${wordsCount}"
         }
     }
 

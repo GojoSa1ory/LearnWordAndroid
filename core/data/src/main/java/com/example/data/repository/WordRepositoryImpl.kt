@@ -42,6 +42,24 @@ class WordRepositoryImpl(
         }
     }
 
+    override fun readWordsByLangId(langId: Int): Result<Flow<List<WordModel>>> {
+        return  try {
+
+            val req = dao.readWordsByLanguage(langId)
+
+            val res = req.map { req ->
+                req.map { data ->
+                    WordEntity.mapToModel(data, languageName = "")
+                }
+            }
+
+            Result.success(res)
+
+        } catch (ex: Exception) {
+            Result.failure(ex)
+        }
+    }
+
     override suspend fun getById(): Result<WordModel> {
         TODO("Not yet implemented")
     }

@@ -7,6 +7,7 @@ import com.example.domain.usecase.language.GetLanguageUseCase
 import com.example.domain.usecase.word.CreateWordUseCase
 import com.example.domain.usecase.word.DeleteWordUseCase
 import com.example.domain.usecase.word.GetWordWithLanguageUseCase
+import com.example.domain.usecase.word.GetWordsByLangIdUseCase
 import com.example.domain.usecase.word.SearchWordUseCase
 import org.koin.dsl.module
 
@@ -16,6 +17,7 @@ val appModule = module {
     factory { DeleteWordUseCase(get()) }
     factory { SearchWordUseCase(get()) }
     factory { CreateWordUseCase(get()) }
+    factory { GetWordsByLangIdUseCase(get()) }
 
     factory { GetLanguageUseCase(get()) }
     factory { CreateLanguageUseCase(get()) }
