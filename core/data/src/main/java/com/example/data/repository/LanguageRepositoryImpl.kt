@@ -83,6 +83,19 @@ class LanguageRepositoryImpl(
     }
 
     override fun search(req: String): Result<Flow<List<LanguageModel>>> {
-        TODO("Not yet implemented")
+        return try {
+
+            val request = dao.search(req)
+
+            val res = request.map { res ->
+                res.map {
+                    LanguageEntity.mapToModel(it)
+                }
+            }
+
+            Result.success(res)
+        } catch(ex: Exception) {
+            Result.failure(ex)
+        }
     }
 }

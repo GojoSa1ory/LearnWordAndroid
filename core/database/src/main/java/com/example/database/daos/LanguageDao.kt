@@ -15,7 +15,7 @@ interface LanguageDao: BaseCRUDao<LanguageEntity> {
         WHERE (:req IS NULL OR :req == '')
         OR language_name LIKE '%' || :req || '%'
     """)
-    fun search(req: String): Flow<LanguageEntity>
+    fun search(req: String): Flow<List<LanguageEntity>>
 
     @Query("""
         SELECT * FROM Languages

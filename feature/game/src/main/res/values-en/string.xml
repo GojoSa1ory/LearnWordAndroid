@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="main_games_screen_header_title"> Training </string>
+    <string name="choose_module_screen_title">Choose module</string>
+    <string name="enter_translate_game_title"> Translation </string>
+    <string name="correct_answer_game_title"> Correct variant  </string>
+</resources>

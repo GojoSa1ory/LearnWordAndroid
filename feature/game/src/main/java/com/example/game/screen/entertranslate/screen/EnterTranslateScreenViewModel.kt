@@ -45,7 +45,8 @@ class EnterTranslateScreenViewModel (
 
                     _state.value = _state.value.copy(
                         words = data,
-                        currentWord = data.random()
+                        currentWord = data.random(),
+                        wordsCount = data.count(),
                     )
 
                 }
@@ -64,16 +65,33 @@ class EnterTranslateScreenViewModel (
 
     private fun checkAnswer() {
         if (_state.value.userTranslate == _state.value.currentWord?.translatedWord) {
+
+            val correctAnswerCount = _state.value.correctAnswerCount + 1
+
             _state.value = _state.value.copy(
                 isCorrect = true,
                 isShowAnswer = true,
-                isNextEnable = true
+                isNextEnable = true,
+                correctAnswerCount = correctAnswerCount
             )
         } else {
+
+            val uncorrectWords: MutableList<String> = _state.value.uncorrectWords
+            val correctWords: MutableList<String> = _state.value.correctWords
+
+            _state.value.currentWord?.let {
+                uncorrectWords.add(_state.value.userTranslate)
+                correctWords.add(it.translatedWord)
+            }
+
+            Log.d("words", uncorrectWords.toString())
+
             _state.value = _state.value.copy(
                 isCorrect = false,
                 isShowAnswer = true,
-                isNextEnable = true
+                isNextEnable = true,
+                uncorrectWords = uncorrectWords,
+                correctWords = correctWords
             )
         }
     }
@@ -84,17 +102,21 @@ class EnterTranslateScreenViewModel (
         val words: List<WordModel>
 
         if(currentWords.count() > 1) {
-            Log.d("count", currentWords.count().toString())
+
             words = currentWords.filter { el ->
                 el != _state.value.currentWord
             }
 
             val currentWord = words.random()
+            val currentPosition = _state.value.currentWordPosition + 1
 
             _state.value = _state.value.copy(
                 words = words,
-                currentWord = currentWord
+                currentWord = currentWord,
+                currentWordPosition = currentPosition
             )
+
+            clearFields()
 
         } else {
 
@@ -106,6 +128,15 @@ class EnterTranslateScreenViewModel (
             )
         }
 
+    }
+
+    private fun clearFields() {
+        _state.value = _state.value.copy(
+            isNextEnable = false,
+            isCorrect = false,
+            isShowAnswer = false,
+            userTranslate = ""
+        )
     }
 
 }

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
@@ -17,10 +18,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.game.R
 import com.example.game.navigation.graph.GameNavigationGraph
 import com.example.game.screen.choosegame.component.GameCard
 
@@ -40,7 +44,7 @@ fun ChooseGameScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = "Games"
+                        text = stringResource(id = R.string.main_games_screen_header_title)
                     )
                 }
             )
@@ -54,16 +58,16 @@ fun ChooseGameScreen(
                 .fillMaxSize()
         ) {
 
-            LazyVerticalStaggeredGrid(
-                columns = StaggeredGridCells.Fixed(2),
-                verticalItemSpacing = 8.dp,
-                contentPadding = PaddingValues(8.dp),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            Row (
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                items(games) {
-                    GameCard(name = it.title) {
-                        navigateToChooseModule()
-                    }
+                GameCard(name = "Translate") {
+                    navigateToChooseModule()
+                }
+
+                GameCard(name = "Choose correct") {
+                    navigateToChooseModule()
                 }
             }
 

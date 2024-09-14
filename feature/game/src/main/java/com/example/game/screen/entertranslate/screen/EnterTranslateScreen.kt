@@ -35,7 +35,12 @@ fun EnterTranslateScreen(
     model: EnterTranslateScreenViewModel = koinViewModel(),
     id: Int,
     closeGame: () -> Unit,
-    showStatsScreen: (correntAnswersCount: Int, wordsCount: Int) -> Unit
+    showStatsScreen: (
+        correntAnswersCount: Int,
+        wordsCount: Int,
+        correctWords: List<String>,
+        uncorrectWords: List<String>
+    ) -> Unit
 ) {
 
     LaunchedEffect(key1 = true) {
@@ -61,6 +66,11 @@ fun EnterTranslateScreen(
         ) {
 
             state.currentWord?.let { it ->
+
+                Text(
+                    text = " ${state.currentWordPosition}/${state.wordsCount}",
+                    fontSize = 18.sp,
+                )
 
                 Spacer(modifier = Modifier.weight(1f))
 
@@ -106,7 +116,6 @@ fun EnterTranslateScreen(
                     ) {
                         Text(
                             text = "Check answer",
-                            color = if (state.isCorrect) Color.Green else Color.Black,
                             fontSize = 18.sp
                         )
                     }
@@ -121,8 +130,13 @@ fun EnterTranslateScreen(
                         .padding(8.dp),
                     onClick = {
                         model.handleIntent(EnterTranslateScreenIntent.SwipeLanguage)
-                        if(state.isShowStatsScreen) {
-                            showStatsScreen(1, 2)
+                        if (state.isShowStatsScreen) {
+                            showStatsScreen(
+                                state.correctAnswerCount,
+                                state.wordsCount,
+                                state.correctWords,
+                                state.uncorrectWords
+                            )
                         }
                     },
                     enabled = state.isNextEnable

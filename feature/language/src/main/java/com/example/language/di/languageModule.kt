@@ -8,7 +8,7 @@ import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 val languageModule = module {
-    viewModel { LanguageScreenViewModel(get()) }
+    viewModel { LanguageScreenViewModel(get(), get()) }
     viewModel { LanguageBottomSheetViewModel(get()) }
     viewModel { LanguageDetailsScreenViewModel(get(), get(), get()) }
 }

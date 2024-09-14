@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.jetbrains.compose.compiler)
     alias(libs.plugins.google.ksp)
+    alias(libs.plugins.serialization)
 }
 
 android {
@@ -59,8 +60,9 @@ dependencies {
 
     implementation libs.room
     implementation libs.room.ktx
-
     ksp(libs.room.process)
+
+    implementation libs.serialization.json
 
     implementation project(':core:ui')
     implementation project(":core:domain")

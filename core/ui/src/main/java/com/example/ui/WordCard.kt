@@ -73,8 +73,6 @@ fun WordCard(
                 .background(Color.DarkGray)
         )
 
-
-
         if (word.wordDescription != "") {
             Text(
                 text = word.wordDescription,
@@ -90,13 +88,5 @@ fun WordCard(
 
 
 }
-
-
-//@Preview(showBackground = true)
-//@Composable
-//fun wordCardPreview () {
-//    WordCard(word = WordModel())
-//}
-
 
 

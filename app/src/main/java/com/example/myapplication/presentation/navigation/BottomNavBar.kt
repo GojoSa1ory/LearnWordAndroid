@@ -1,14 +1,16 @@
 package com.example.myapplication.presentation.navigation
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,9 +24,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.myapplication.presentation.navigation.graphs.RootNavigationGraph
+import com.example.game.navigation.graph.GameNavigationGraph
+import com.example.language.navigation.graph.LanguageNavigationGraph
+import com.example.myapplication.presentation.navigation.graphs.RootRoute
+import com.example.word.navigation.graph.WordNavigationGraph
 
 
 @Composable
@@ -33,24 +40,37 @@ fun BottomNavBar(
 ) {
 
     val routes = listOf(
-        RootNavigationGraph.MainWordScreen,
-        RootNavigationGraph.Games,
-        RootNavigationGraph.MainLanguageScreen,
+        RootRoute(
+            title = "Words",
+            route = WordNavigationGraph.VocabularyScreen,
+            icon = Icons.Filled.Home
+        ),
+        RootRoute(
+            title = "Games",
+            route = GameNavigationGraph.ChooseGame,
+            icon = Icons.Filled.PlayArrow
+        ),
+        RootRoute(
+            title = "Modules",
+            route = LanguageNavigationGraph.MainLanguageScreen,
+            icon = Icons.Filled.Menu
+        ),
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    val isBottomBarDestination = routes.any { it.route == currentDestination?.route}
+    val isBottomBarDestination = routes.any { screen ->
+        currentDestination?.hierarchy?.any { it.hasRoute(screen.route::class) } == true
+    }
 
-    if(isBottomBarDestination) {
+    if (isBottomBarDestination) {
         Row(
             horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(70.dp)
-//                .background(color = Color.White)
                 .drawBehind {
                     drawLine(
                         Color.LightGray,
@@ -67,7 +87,7 @@ fun BottomNavBar(
                     title = route.title,
                     icon = route.icon,
                     route = route.route,
-                    selected = currentDestination?.route == route.route
+                    selected = currentDestination?.hierarchy?.any { it.hasRoute(route.route::class) } == true
                 )
             }
         }
@@ -76,11 +96,11 @@ fun BottomNavBar(
 }
 
 @Composable
-fun BottomNavItem(
+fun <T : Any> BottomNavItem(
     navController: NavHostController,
     title: String,
     icon: ImageVector,
-    route: String,
+    route: T,
     selected: Boolean
 ) {
 
@@ -88,7 +108,6 @@ fun BottomNavItem(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
-            .padding(horizontal = 20.dp)
             .alpha(if (selected) 1f else 0.5f)
             .clickable {
                 navController.navigate(route) {
@@ -101,14 +120,12 @@ fun BottomNavItem(
         Icon(
             imageVector = icon,
             contentDescription = null,
-//            tint = Color.Gray,
             modifier = Modifier
                 .width(35.dp)
                 .height(35.dp),
         )
         Text(
             text = title,
-//            color = Color.Black,
             fontSize = 18.sp
         )
     }

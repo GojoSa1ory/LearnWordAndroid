@@ -27,7 +27,7 @@ fun SwipeToDismissRow (
         confirmValueChange = { state ->
             if(state == SwipeToDismissBoxValue.EndToStart) {
                 onRemove()
-                true
+                false
             } else {
                 false
             }

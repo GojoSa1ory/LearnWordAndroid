@@ -11,13 +11,15 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.stringResource
+import com.example.game.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable fun TopBar (
     closeGame: () -> Unit
 ) {
     TopAppBar(
-        title = { Text("Enter translate") },
+        title = { Text(text = stringResource(id = R.string.enter_translate_game_title)) },
         actions = {
             Row(
                 horizontalArrangement = Arrangement.Center,

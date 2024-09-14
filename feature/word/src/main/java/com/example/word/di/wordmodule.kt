@@ -6,6 +6,6 @@ import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 val wordModule = module {
-    viewModel { WordScreenViewModel(get(), get()) }
+    viewModel { WordScreenViewModel(get(), get(), get()) }
     viewModel { CreateScreenViewModel(get(), get()) }
 }

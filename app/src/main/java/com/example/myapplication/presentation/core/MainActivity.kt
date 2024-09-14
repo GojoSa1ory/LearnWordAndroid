@@ -63,8 +63,3 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-
-@Composable
-@Preview(showBackground = true)
-fun PreviewMainScreen() {
-}

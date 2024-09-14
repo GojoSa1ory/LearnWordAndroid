@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="main_games_screen_header_title"> Тренеровки </string>
+    <string name="choose_module_screen_title">Выберите модуль</string>
+    <string name="enter_translate_game_title"> Перевод </string>
+    <string name="correct_answer_game_title"> Верный вариант </string>
+
+</resources>

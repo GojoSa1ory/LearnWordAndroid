@@ -9,10 +9,10 @@ import com.example.word.screen.main.WordScreen
 
 
 fun NavGraphBuilder.wordScreens(navHostController: NavHostController) {
-    composable(route = WordNavigationGraph.MainWordScreen().route) {
+    composable<WordNavigationGraph.VocabularyScreen> {
         WordScreen {
             navHostController.navigate(
-                route = WordNavigationGraph.CreateWordScreen.route,
+                route = WordNavigationGraph.CreateWordScreen,
             ) {
                 popUpTo(navHostController.graph.startDestinationId)
                 launchSingleTop = true
@@ -20,7 +20,7 @@ fun NavGraphBuilder.wordScreens(navHostController: NavHostController) {
             }
         }
     }
-    composable(route = WordNavigationGraph.CreateWordScreen.route) {
+    composable<WordNavigationGraph.CreateWordScreen> {
         CreateScreen {
             navHostController.popBackStack()
         }

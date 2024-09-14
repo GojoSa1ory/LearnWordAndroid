@@ -1,30 +1,22 @@
 package com.example.game.navigation.host
 
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
-import com.example.game.navigation.graph.CHOOSE_RIGHT_VARIANT_MODULE_ID
-import com.example.game.navigation.graph.CORRECT_ANSWERS
-import com.example.game.navigation.graph.ENTER_TRANSLATE_MODULE_ID
+import androidx.navigation.toRoute
 import com.example.game.navigation.graph.GameNavigationGraph
-import com.example.game.navigation.graph.WORDS_COUNT
 import com.example.game.screen.choosegame.ChooseGameScreen
 import com.example.game.screen.choosemodule.screen.ChooseModuleScreen
 import com.example.game.screen.entertranslate.screen.EnterTranslateScreen
-import com.example.game.screen.statistics.StatisticsScreen
+import com.example.game.screen.statistics.screen.StatisticsScreen
 
 fun NavGraphBuilder.gameScreen(
     navHostController: NavHostController
 ) {
-    composable(
-        route = GameNavigationGraph.ChooseGame().route
-    ) {
+    composable<GameNavigationGraph.ChooseGame> {
         ChooseGameScreen {
             navHostController.navigate(
-                route = GameNavigationGraph.ChooseModule.route
+                route = GameNavigationGraph.ChooseModule
             ) {
                 restoreState = true
                 launchSingleTop = true
@@ -32,14 +24,16 @@ fun NavGraphBuilder.gameScreen(
         }
     }
 
-    composable(
-        route = GameNavigationGraph.ChooseModule.route,
-    ) {
+    composable<GameNavigationGraph.ChooseModule> {
         ChooseModuleScreen(
             navigateToGame = { id ->
                 navHostController.navigate(
-                    route = GameNavigationGraph.EnterTranslate.passId(id)
-                )
+                    route = GameNavigationGraph.EnterTranslate(id)
+                ) {
+                    popUpTo(GameNavigationGraph.ChooseModule) {
+                        inclusive = true
+                    }
+                }
             },
             navigateBack = {
                 navHostController.popBackStack()
@@ -47,28 +41,17 @@ fun NavGraphBuilder.gameScreen(
         )
     }
 
-    composable(
-        route = GameNavigationGraph.ChooseRightVariant.route,
-        arguments = listOf(
-            navArgument(CHOOSE_RIGHT_VARIANT_MODULE_ID) {
-                type = NavType.IntType
-            }
-        )
-    ) {  }
+//    composable<GameNavigationGraph.ChooseRightVariant> { }
 
-    composable(
-        route = GameNavigationGraph.EnterTranslate.route,
-        arguments = listOf(
-            navArgument(ENTER_TRANSLATE_MODULE_ID) {
-                type = NavType.IntType
-            }
-        )
-    ) {
+    composable<GameNavigationGraph.EnterTranslate> {
+
+        val screen: GameNavigationGraph.EnterTranslate = it.toRoute()
+
         EnterTranslateScreen(
-            id = it.arguments?.getInt(ENTER_TRANSLATE_MODULE_ID) ?: 0,
+            id = screen.id,
             closeGame = {
-                navHostController.navigate(route = GameNavigationGraph.ChooseGame().route) {
-                    popUpTo(navHostController.graph.findStartDestination().id) {
+                navHostController.navigate(route = GameNavigationGraph.ChooseGame) {
+                    popUpTo(GameNavigationGraph.EnterTranslate) {
                         inclusive = true
                         saveState = false
                     }
@@ -76,17 +59,19 @@ fun NavGraphBuilder.gameScreen(
                     restoreState = false
                 }
             },
-            showStatsScreen = { correctAnswerCount, wordsCount ->
+            showStatsScreen = { correctAnswerCount, wordsCount, correctWords, uncorrectWords ->
                 navHostController.navigate(
-                    route = GameNavigationGraph.StatsScreen.passArguments(
-                            count = correctAnswerCount,
-                            wordsCount = wordsCount
-                        )
+                    route = GameNavigationGraph.StatsScreen(
+                        correctAnswersCount = correctAnswerCount,
+                        wordsCount = wordsCount,
+                        correctWords = correctWords,
+                        uncorrectWords = uncorrectWords
+                    )
                 ) {
-                    popUpTo(navHostController.graph.findStartDestination().id) {
-                        inclusive = true
-                        saveState = false
-                    }
+//                    popUpTo(GameNavigationGraph.EnterTranslate) {
+//                        inclusive = true
+//                        saveState = false
+//                    }
                     launchSingleTop = true
                     restoreState = false
                 }
@@ -94,28 +79,20 @@ fun NavGraphBuilder.gameScreen(
         )
     }
 
-    composable (
-        route = GameNavigationGraph.StatsScreen.route,
-        arguments = listOf(
-            navArgument(CORRECT_ANSWERS) {
-                type = NavType.IntType
-            },
-            navArgument(WORDS_COUNT) {
-                type = NavType.IntType
-            }
-        )
-    ) {
+    composable<GameNavigationGraph.StatsScreen> {
+
+        val screen: GameNavigationGraph.StatsScreen = it.toRoute()
+
         StatisticsScreen(
-            correctAnswerCount = it.arguments?.getInt(CORRECT_ANSWERS) ?: 0,
-            wordsCount = it.arguments?.getInt(WORDS_COUNT) ?: 0,
+            stat = screen,
             closeScreen = {
-                navHostController.navigate(route = GameNavigationGraph.ChooseGame().route) {
-                    popUpTo(navHostController.graph.findStartDestination().id) {
-                        inclusive = true
-                        saveState = false
-                    }
+                navHostController.navigate(route = GameNavigationGraph.ChooseGame) {
+//                    popUpTo(GameNavigationGraph.StatsScreen) {
+//                        inclusive = true
+//                        saveState = true
+//                    }
                     launchSingleTop = true
-                    restoreState = true
+                    restoreState = false
                 }
             }
         )

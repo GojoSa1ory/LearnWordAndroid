@@ -20,8 +20,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.word.R
 import com.example.word.screen.create.component.CreateWordField
 import com.example.word.screen.create.component.LanguageRow
 import org.koin.androidx.compose.koinViewModel
@@ -42,7 +44,7 @@ fun CreateScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Create word") },
+                title = { Text(text = stringResource(id = R.string.create_word_screen_title)) },
                 navigationIcon = {
                     IconButton(onClick = { navigateBack() }) {
                         Icon(imageVector = Icons.Outlined.Close, contentDescription = "")
@@ -66,21 +68,21 @@ fun CreateScreen(
             }
 
             CreateWordField(
-                placeholder = "Main word",
+                placeholder = stringResource(id = R.string.main_word_field_placeholder),
                 value = state.mainWordValue,
                 onChange = model::handleMainWordChange,
                 isRequired = true
             )
 
             CreateWordField(
-                placeholder = "Translated word",
+                placeholder = stringResource(id = R.string.translated_word_field_placeholder),
                 value = state.translatedWordValue,
                 onChange = model::handleTranslatedWordChange,
                 isRequired = true
             )
 
             CreateWordField(
-                placeholder = "Description",
+                placeholder = stringResource(id = R.string.description_word_field_placeholder),
                 value = state.descriptionWord,
                 onChange = model::handleDescriptionWordChange,
                 isRequired = false

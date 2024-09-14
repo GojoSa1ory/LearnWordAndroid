@@ -1,11 +1,14 @@
 package com.example.game.screen.choosemodule.screen
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -15,9 +18,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.game.R
 import com.example.ui.LanguageCard
 import org.koin.androidx.compose.koinViewModel
 
@@ -38,7 +43,7 @@ fun ChooseModuleScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Choose module") },
+                title = { Text(text = stringResource(id = R.string.choose_module_screen_title)) },
                 actions = {
                     Row {
                         TextButton(onClick = { navigateBack() }) {
@@ -59,7 +64,11 @@ fun ChooseModuleScreen(
                 .padding(15.dp)
                 .fillMaxSize()
         ) {
-            LazyColumn {
+            LazyVerticalStaggeredGrid(
+                columns = StaggeredGridCells.Fixed(2),
+                contentPadding = PaddingValues(4.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
                 items(state.languages) {
                     LanguageCard(language = it) {
                         navigateToGame(it.id)

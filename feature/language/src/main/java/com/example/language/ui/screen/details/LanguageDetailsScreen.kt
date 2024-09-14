@@ -57,28 +57,25 @@ fun LanguageDetailsScreen(
                 .fillMaxSize()
         ) {
 
-            if (!state.isError && !state.isLoading) {
-                state.languageAndWords?.let { data ->
-                    WordsList(words = data.words) {
-                        model.handleIntent(intent = LanguageDetailsScreenIntent.DeleteWord(it))
-                    }
-
-                }
-            }
-
-            if (state.isLoading) {
-                Text(
+            when {
+                state.isLoading -> Text(
                     text = "Loading",
                     fontSize = 20.sp
                 )
-            }
-
-            if (state.isError) {
-                Text(
+                state.isError -> Text(
                     text = state.errorMessage ?: "Error",
                     fontSize = 20.sp
                 )
+                else -> {
+                    state.languageAndWords?.let { data ->
+                        WordsList(words = data.words) {
+                            model.handleIntent(intent = LanguageDetailsScreenIntent.DeleteWord(it))
+                        }
+                    }
+                }
             }
+
+
         }
     }
 

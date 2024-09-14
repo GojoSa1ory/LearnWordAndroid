@@ -7,12 +7,13 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.usecase.language.GetLanguageUseCase
+import com.example.domain.usecase.language.SearchLangUseCase
 
 import kotlinx.coroutines.launch
 
 class LanguageScreenViewModel(
     private val getLanguagesUseCase: GetLanguageUseCase,
-//    private val searchLanguageUseCase: SearchLanguageUseCase
+    private val searchLanguageUseCase: SearchLangUseCase
 ): ViewModel() {
 
     private val _state = mutableStateOf(LanguageScreenState())
@@ -25,8 +26,12 @@ class LanguageScreenViewModel(
     fun handleIntent(intent: LanguageScreenIntent) {
         when(intent) {
             is LanguageScreenIntent.GetLanguages -> getLanguages()
-            is LanguageScreenIntent.SearchLanguage -> TODO()
+            is LanguageScreenIntent.SearchLanguage -> searchLanguage(intent.req)
         }
+    }
+
+    fun handleReqChange(req: String) {
+        this.searchReq = req
     }
 
     private fun getLanguages() {
@@ -53,23 +58,19 @@ class LanguageScreenViewModel(
         }
     }
 
-//    private fun searchLanguage(req: String) {
-//        viewModelScope.launch {
-//            val res = searchLanguageUseCase.execute(req)
-//
-//            res.onSuccess { data ->
-//                data.collect {
-//                    _state.value = _state.value.copy(languages = it)
-//                }
-//            }
-//
-//            res.onFailure { exception ->
-//                _state.value = _state.value.copy(error = exception.localizedMessage)
-//            }
-//        }
-//    }
+    private fun searchLanguage(req: String) {
+        viewModelScope.launch {
+            val res = searchLanguageUseCase.invoke(req)
 
-    fun handleReqChange(req: String) {
-        this.searchReq = req
+            res.onSuccess { data ->
+                data.collect {
+                    _state.value = _state.value.copy(languages = it)
+                }
+            }
+
+            res.onFailure { exception ->
+                _state.value = _state.value.copy(error = exception.localizedMessage)
+            }
+        }
     }
 }

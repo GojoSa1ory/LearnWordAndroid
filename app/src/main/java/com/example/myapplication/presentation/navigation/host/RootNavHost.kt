@@ -6,7 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.example.game.navigation.host.gameScreen
 import com.example.language.navigation.host.languageScreen
-import com.example.myapplication.presentation.navigation.graphs.RootNavigationGraph
+import com.example.word.navigation.graph.WordNavigationGraph
 import com.example.word.navigation.navHost.wordScreens
 
 
@@ -19,8 +19,9 @@ fun RootNavHost (
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = RootNavigationGraph.MainWordScreen.route
+        startDestination = WordNavigationGraph.VocabularyScreen
     ) {
+
         wordScreens(navHostController = navController)
 
         languageScreen(navHostController = navController)

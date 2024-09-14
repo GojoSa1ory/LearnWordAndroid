@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="delete_alert_title">Важно</string>
+    <string name="delete_word_alert_text">Вы удалите данное слово навсегда. Его будет невозможно восстановить.</string>
+    <string name="loading">Загрузка...</string>
+
+    <string name="main_word_screen">Словарь</string>
+
+    <string name="create_word_screen_title">Создание нового слова</string>
+    <string name = "main_word_field_placeholder"> Основное слово </string>
+    <string name = "translated_word_field_placeholder"> Перевод слова </string>
+    <string name = "description_word_field_placeholder"> Описание </string>
+</resources>

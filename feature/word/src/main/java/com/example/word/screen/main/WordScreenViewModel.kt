@@ -7,13 +7,14 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.model.WordModel
 import com.example.domain.usecase.word.DeleteWordUseCase
 import com.example.domain.usecase.word.GetWordWithLanguageUseCase
+import com.example.domain.usecase.word.SearchWordUseCase
 
 import kotlinx.coroutines.launch
 
 class WordScreenViewModel(
     private val getWordWithLanguageUseCase: GetWordWithLanguageUseCase,
     private val deleteWordUseCase: DeleteWordUseCase,
-//    private val searchWordUseCase: SearchWordUseCase
+    private val searchWordUseCase: SearchWordUseCase
 ): ViewModel() {
 
     private val _state = mutableStateOf(WordScreenState())
@@ -23,7 +24,7 @@ class WordScreenViewModel(
         when(intent) {
             is WordScreenIntent.DeleteWord -> deleteWord(intent.word)
             is WordScreenIntent.GetWords -> getWords()
-            is WordScreenIntent.SearchWord -> TODO()
+            is WordScreenIntent.SearchWord -> searchWords(intent.req)
         }
     }
 
@@ -55,6 +56,27 @@ class WordScreenViewModel(
     private fun deleteWord(word: WordModel) {
         viewModelScope.launch {
             deleteWordUseCase.invoke(word)
+        }
+    }
+
+    private fun searchWords(req: String) {
+        viewModelScope.launch {
+            val res = searchWordUseCase.invoke(req)
+
+            res.onSuccess { res ->
+                res.collect { data ->
+                    _state.value = _state.value.copy(
+                        words = data
+                    )
+                }
+            }
+
+            res.onFailure {
+                _state.value = _state.value.copy(
+                    isError = true,
+                    errorMessage = it.localizedMessage ?: "Search failed"
+                )
+            }
         }
     }
 

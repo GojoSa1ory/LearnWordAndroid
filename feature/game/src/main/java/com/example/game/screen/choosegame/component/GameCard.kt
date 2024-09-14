@@ -24,6 +24,7 @@ fun GameCard(
 ) {
     Row(
         modifier = Modifier
+            .padding(horizontal = 8.dp)
             .height(height = 80.dp)
             .clickable {
                 routeTo()
