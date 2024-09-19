@@ -1,17 +1,25 @@
 package com.example.language.ui.screen.details.component
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Menu
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
@@ -20,9 +28,13 @@ fun LanguageDetailsTopBar (
     navigateBack: () -> Unit,
     deleteAction: () -> Unit
 )  {
+
+    var showDropDownMenu by remember {
+        mutableStateOf(false)
+    }
+
     Row(
         modifier = Modifier
-            .padding(vertical = 15.dp)
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
@@ -40,13 +52,24 @@ fun LanguageDetailsTopBar (
             fontWeight = FontWeight.SemiBold
         )
 
-        TextButton(onClick = { deleteAction() }) {
-            Text(
-                text = "Delete",
-                fontSize = 19.sp,
-                fontWeight = FontWeight.Medium,
-                color = Color.Red
-            )
+        Column {
+
+            IconButton(onClick = { showDropDownMenu = true }) {
+                Icon(imageVector = Icons.Rounded.Menu, contentDescription = "")
+            }
+
+             DropdownMenu(expanded = showDropDownMenu, onDismissRequest = { showDropDownMenu = false }) {
+                DropdownMenuItem(
+                    text = { Text(text = "Delete") },
+                    onClick = { deleteAction() }
+                )
+                DropdownMenuItem(
+                    text = { Text(text = "Edit") },
+                    onClick = {  }
+                )
+            }
+
         }
+
     }
 }

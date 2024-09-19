@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="delete_alert_text">Это слово будет удалено навсегда. Вы уверены что хотите продолжить?</string>
+    <string name="delete_alert_delete_btn_title">Удалить</string>
+    <string name="delete_alert_abort_btn_title">Отмена</string>
+</resources>

@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
@@ -18,6 +20,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -47,7 +50,7 @@ fun BottomNavBar(
         ),
         RootRoute(
             title = "Games",
-            route = GameNavigationGraph.ChooseGame,
+            route = GameNavigationGraph.ChooseModule,
             icon = Icons.Filled.PlayArrow
         ),
         RootRoute(
@@ -70,7 +73,6 @@ fun BottomNavBar(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(70.dp)
                 .drawBehind {
                     drawLine(
                         Color.LightGray,
@@ -79,6 +81,7 @@ fun BottomNavBar(
                         3f
                     )
                 }
+                .padding(5.dp)
 
         ) {
             routes.forEach { route ->
@@ -108,6 +111,7 @@ fun <T : Any> BottomNavItem(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
+            .clip(shape = RoundedCornerShape(15.dp))
             .alpha(if (selected) 1f else 0.5f)
             .clickable {
                 navController.navigate(route) {
@@ -116,6 +120,7 @@ fun <T : Any> BottomNavItem(
                     restoreState = true
                 }
             }
+            .padding(5.dp)
     ) {
         Icon(
             imageVector = icon,

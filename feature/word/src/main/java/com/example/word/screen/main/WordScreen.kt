@@ -44,15 +44,6 @@ fun WordScreen(
 
     val state by viewModel.state
 
-    val isOpenDialog = remember {
-        mutableStateOf(false)
-    }
-
-    var selectedWord by remember {
-        mutableStateOf<WordModel?>(null)
-    }
-
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -78,49 +69,9 @@ fun WordScreen(
                 state.isError -> Text(text = state.errorMessage)
                 else -> {
                     WordsList(words = state.words) {
-                        isOpenDialog.value = true
-                        selectedWord = it
+                        viewModel.handleIntent(intent = WordScreenIntent.DeleteWord(it))
                     }
                 }
-            }
-
-            if (isOpenDialog.value) {
-                AlertDialog(
-                    onDismissRequest = {
-                        isOpenDialog.value = false
-                    },
-                    confirmButton = {
-                        TextButton(onClick = {
-                            isOpenDialog.value = false
-                            selectedWord?.let {
-                                viewModel.handleIntent(intent = WordScreenIntent.DeleteWord(it))
-                            }
-                        }) {
-                            Text(text = "Delete", color = Color.Red)
-                        }
-                    },
-                    dismissButton = {
-                        TextButton(onClick = {
-                            isOpenDialog.value = false
-                        }) {
-                            Text(text = "Close")
-                        }
-                    },
-                    title = { Text(text = stringResource(id = R.string.delete_alert_title)) },
-                    text = {
-                        Text(
-                            text = stringResource(id = R.string.delete_word_alert_text),
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.SemiBold
-                        )
-                    },
-                    icon = {
-                        Icon(
-                            imageVector = Icons.Rounded.Warning,
-                            contentDescription = "Warning icon"
-                        )
-                    }
-                )
             }
 
 

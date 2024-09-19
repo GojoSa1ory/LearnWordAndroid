@@ -29,8 +29,7 @@ import org.koin.androidx.compose.koinViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChooseModuleScreen(
-    navigateBack: () -> Unit,
-    navigateToGame: (id: Int) -> Unit,
+    navigateToChooseGame: (id: Int) -> Unit,
     model: ChooseScreenViewModel = koinViewModel()
 ) {
 
@@ -44,17 +43,6 @@ fun ChooseModuleScreen(
         topBar = {
             TopAppBar(
                 title = { Text(text = stringResource(id = R.string.choose_module_screen_title)) },
-                actions = {
-                    Row {
-                        TextButton(onClick = { navigateBack() }) {
-                            Text(
-                                text = "< Back",
-                                fontSize = 21.sp,
-                                fontWeight = FontWeight.Medium
-                            )
-                        }
-                    }
-                }
             )
         }
     ) { paddingValues ->
@@ -71,7 +59,7 @@ fun ChooseModuleScreen(
             ) {
                 items(state.languages) {
                     LanguageCard(language = it) {
-                        navigateToGame(it.id)
+                        navigateToChooseGame(it.id)
                     }
                 }
             }

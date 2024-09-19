@@ -7,7 +7,9 @@ import kotlinx.serialization.Serializable
 sealed class GameNavigationGraph {
 
     @Serializable
-    data object ChooseGame : GameNavigationGraph()
+    data class ChooseGame(
+        val id: Int
+    ) : GameNavigationGraph()
 
     @Serializable
     data object ChooseModule : GameNavigationGraph()

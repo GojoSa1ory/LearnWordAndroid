@@ -31,7 +31,9 @@ import com.example.game.screen.choosegame.component.GameCard
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChooseGameScreen(
-    navigateToChooseModule: () -> Unit
+    id: Int,
+    navigateToTranslateGame: (id: Int) -> Unit,
+    navigateToChooseCorrectGame: (id: Int) -> Unit
 ) {
 
     val games = listOf(
@@ -58,16 +60,15 @@ fun ChooseGameScreen(
                 .fillMaxSize()
         ) {
 
-            Row (
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically,
+            Column(
+
             ) {
                 GameCard(name = "Translate") {
-                    navigateToChooseModule()
+                    navigateToTranslateGame(id)
                 }
 
                 GameCard(name = "Choose correct") {
-                    navigateToChooseModule()
+                    navigateToChooseCorrectGame(id)
                 }
             }
 

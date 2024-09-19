@@ -84,8 +84,6 @@ class EnterTranslateScreenViewModel (
                 correctWords.add(it.translatedWord)
             }
 
-            Log.d("words", uncorrectWords.toString())
-
             _state.value = _state.value.copy(
                 isCorrect = false,
                 isShowAnswer = true,
@@ -126,6 +124,8 @@ class EnterTranslateScreenViewModel (
                 words = words,
                 isShowStatsScreen = true
             )
+
+            clearFields()
         }
 
     }

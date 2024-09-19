@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="delete_alert_text">You will delete this world forever. Are you sure about that?</string>
+    <string name="delete_alert_delete_btn_title">Delete</string>
+    <string name="delete_alert_abort_btn_title">Cancel</string>
+</resources>
