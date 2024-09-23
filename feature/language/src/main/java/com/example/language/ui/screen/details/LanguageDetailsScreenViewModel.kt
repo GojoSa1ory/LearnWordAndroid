@@ -8,13 +8,15 @@ import com.example.domain.model.LanguageModel
 import com.example.domain.model.WordModel
 import com.example.domain.usecase.language.DeleteLanguageUseCase
 import com.example.domain.usecase.language.GetLanguageAndWordsByIdUseCase
+import com.example.domain.usecase.language.UpdateLanguageUseCase
 import com.example.domain.usecase.word.DeleteWordUseCase
 import kotlinx.coroutines.launch
 
 class LanguageDetailsScreenViewModel(
     private val getLanguageWithWordsByIdUseCase: GetLanguageAndWordsByIdUseCase,
     private val deleteWordUseCase: DeleteWordUseCase,
-    private val deleteLanguageUseCase: DeleteLanguageUseCase
+    private val deleteLanguageUseCase: DeleteLanguageUseCase,
+    private val updateLanguageUseCase: UpdateLanguageUseCase
 ): ViewModel() {
 
     private val _state = mutableStateOf(LanguageDetailsScreenState())
@@ -25,7 +27,15 @@ class LanguageDetailsScreenViewModel(
             is LanguageDetailsScreenIntent.DeleteLanguageAndWords -> deleteLanguage(intent.lang)
             is LanguageDetailsScreenIntent.GetLanguageAndWordsById -> getLanguageWithWordsById(id = intent.id)
             is LanguageDetailsScreenIntent.DeleteWord -> deleteWord(intent.word)
+            is LanguageDetailsScreenIntent.EnableEditMode -> enableEditMode()
+            is LanguageDetailsScreenIntent.UpdateModule -> updateModule()
         }
+    }
+
+    fun setNewTitle(title: String) {
+        _state.value = _state.value.copy(
+            newTitle = title
+        )
     }
 
     private fun getLanguageWithWordsById(id: Int) {
@@ -34,10 +44,14 @@ class LanguageDetailsScreenViewModel(
             val res = getLanguageWithWordsByIdUseCase.invoke(id)
 
             res.onSuccess { data ->
-                _state.value = _state.value.copy(
-                    languageAndWords = data,
-                    isLoading = false
-                )
+
+                data.collect {
+                    _state.value = _state.value.copy(
+                        languageAndWords = it,
+                        isLoading = false
+                    )
+                }
+
             }
 
             res.onFailure {
@@ -73,6 +87,29 @@ class LanguageDetailsScreenViewModel(
                     errorMessage = it.localizedMessage,
                     isLoading = false
                 )
+            }
+        }
+    }
+
+    private fun enableEditMode () {
+
+        val isEditMode = _state.value.isEditMode
+
+        _state.value = _state.value.copy(
+            isEditMode = !isEditMode
+        )
+    }
+
+    private fun updateModule() {
+        viewModelScope.launch {
+            _state.value.languageAndWords?.language?.let { lang ->
+
+                val newLang = LanguageModel(
+                    id = lang.id,
+                    languageName = _state.value.newTitle
+                )
+
+                updateLanguageUseCase.invoke(newLang)
             }
         }
     }

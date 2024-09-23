@@ -12,7 +12,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -33,14 +37,9 @@ import com.example.game.screen.choosegame.component.GameCard
 fun ChooseGameScreen(
     id: Int,
     navigateToTranslateGame: (id: Int) -> Unit,
-    navigateToChooseCorrectGame: (id: Int) -> Unit
+    navigateToChooseCorrectGame: (id: Int) -> Unit,
+    close: () -> Unit
 ) {
-
-    val games = listOf(
-        GameNavigationGraph.EnterTranslate,
-        GameNavigationGraph.ChooseRightVariant,
-    )
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -48,6 +47,13 @@ fun ChooseGameScreen(
                     Text(
                         text = stringResource(id = R.string.main_games_screen_header_title)
                     )
+                },
+                actions = {
+                    IconButton(onClick = {
+                        close()
+                    }) {
+                        Icon(imageVector = Icons.Rounded.Close, contentDescription = "close" )
+                    }
                 }
             )
         }
@@ -60,9 +66,7 @@ fun ChooseGameScreen(
                 .fillMaxSize()
         ) {
 
-            Column(
-
-            ) {
+            Column {
                 GameCard(name = "Translate") {
                     navigateToTranslateGame(id)
                 }

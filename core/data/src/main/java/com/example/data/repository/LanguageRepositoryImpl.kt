@@ -50,12 +50,14 @@ class LanguageRepositoryImpl(
         TODO("Not yet implemented")
     }
 
-    override suspend fun readWithWordsById(id: Int): Result<LanguageAndWordsModel> {
+    override suspend fun readWithWordsById(id: Int): Result<Flow<LanguageAndWordsModel>> {
         return try {
 
             val req = dao.readLanguageWithWordsById(id)
 
-            val res = LanguageAndWords.mapToModel(req)
+            val res = req.map {
+                LanguageAndWords.mapToModel(it)
+            }
 
             Result.success(res)
 
@@ -65,7 +67,17 @@ class LanguageRepositoryImpl(
     }
 
     override suspend fun update(item: LanguageModel): Result<Boolean> {
-        TODO("Not yet implemented")
+        return try {
+
+            val req = LanguageModel.mapToEntity(item)
+
+            dao.update(req)
+
+            Result.success(true)
+
+        } catch (ex: Exception) {
+            Result.failure(ex)
+        }
     }
 
     override suspend fun delete(item: LanguageModel): Result<Boolean> {

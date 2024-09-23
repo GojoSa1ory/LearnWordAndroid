@@ -36,21 +36,25 @@ class ChooseCorrectAnswerScreenViewModel(
 
                 res.collect {data ->
 
-                    val currentWord = data.random()
+                    if(data.isNotEmpty()) {
+                        val currentWord = data.random()
 
-                    val answers:MutableList<String> = mutableListOf(
-                        currentWord.translatedWord,
-                        data.random().translatedWord,
-                        data.random().translatedWord,
-                        data.random().translatedWord,
-                    )
+                        val answers:MutableList<String> = mutableListOf(
+                            currentWord.translatedWord,
+                            data.random().translatedWord,
+                            data.random().translatedWord,
+                            data.random().translatedWord,
+                        )
 
-                    _state.value = _state.value.copy(
-                        words = data,
-                        currentWord = currentWord,
-                        answers = answers,
-                        wordsCount = data.count()
-                    )
+                        _state.value = _state.value.copy(
+                            words = data,
+                            currentWord = currentWord,
+                            answers = answers,
+                            wordsCount = data.count()
+                        )
+                    }
+
+
 
                 }
             }
@@ -70,12 +74,14 @@ class ChooseCorrectAnswerScreenViewModel(
             if(word.translatedWord.trim().lowercase() == answer.trim().lowercase()) {
                 _state.value = _state.value.copy(
                     isCorrect = true,
-                    isNextEnable = true
+                    isNextEnable = true,
+                    selectedAnswer = answer
                 )
             } else {
                 _state.value = _state.value.copy(
                     isCorrect = false,
-                    isNextEnable = true
+                    isNextEnable = true,
+                    selectedAnswer = answer
                 )
             }
         }
@@ -95,7 +101,7 @@ class ChooseCorrectAnswerScreenViewModel(
                 words.random().translatedWord
             )
 
-            // Обновляем состояние с новым словом
+
             _state.value = _state.value.copy(
                 words = words,
                 currentWord = currentWord,
@@ -103,21 +109,19 @@ class ChooseCorrectAnswerScreenViewModel(
                 answers = answers
             )
 
-            // Очищаем поля после смены слова
+
             clearFields()
 
         } else {
-            // Когда слов больше не осталось, устанавливаем состояние для отображения экрана статистики
+
             _state.value = _state.value.copy(
                 isShowStatsScreen = true
             )
 
-            // Очищаем слова, чтобы больше не было попыток переключить их
             _state.value = _state.value.copy(
                 words = emptyList()
             )
 
-            // Очищаем поля
             clearFields()
         }
     }
@@ -127,7 +131,8 @@ class ChooseCorrectAnswerScreenViewModel(
     private fun clearFields() {
         _state.value = _state.value.copy(
             isCorrect = false,
-            isNextEnable = false
+            isNextEnable = false,
+            selectedAnswer = ""
         )
     }
 }

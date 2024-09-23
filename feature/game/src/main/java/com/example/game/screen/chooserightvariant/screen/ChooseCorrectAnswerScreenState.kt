@@ -8,6 +8,7 @@ data class ChooseCorrectAnswerScreenState (
     val isShowStatsScreen: Boolean = false,
     val isError: Boolean = false,
     val errMessage: String = "",
+    val selectedAnswer: String = "",
     val words: List<WordModel> = emptyList(),
     val answers: List<String> = emptyList(),
     val currentWord: WordModel? = null,

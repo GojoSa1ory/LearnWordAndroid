@@ -65,6 +65,10 @@ fun EnterTranslateScreen(
             verticalArrangement = Arrangement.Center
         ) {
 
+            if(state.words.isEmpty()) {
+                Text(text = "You don't have any words.")
+            }
+
             state.currentWord?.let { it ->
 
                 Text(

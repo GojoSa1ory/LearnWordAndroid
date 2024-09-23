@@ -43,11 +43,13 @@ class EnterTranslateScreenViewModel (
 
                 res.collect { data ->
 
-                    _state.value = _state.value.copy(
-                        words = data,
-                        currentWord = data.random(),
-                        wordsCount = data.count(),
-                    )
+                    if(data.isNotEmpty()) {
+                        _state.value = _state.value.copy(
+                            words = data,
+                            currentWord = data.random(),
+                            wordsCount = data.count(),
+                        )
+                    }
 
                 }
 

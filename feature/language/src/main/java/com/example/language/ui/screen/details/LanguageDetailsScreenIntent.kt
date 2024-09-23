@@ -7,4 +7,6 @@ sealed class LanguageDetailsScreenIntent {
     data class GetLanguageAndWordsById(val id: Int): LanguageDetailsScreenIntent()
     data class DeleteLanguageAndWords(val lang: LanguageModel) : LanguageDetailsScreenIntent()
     data class DeleteWord(val word: WordModel): LanguageDetailsScreenIntent()
+    data object UpdateModule: LanguageDetailsScreenIntent()
+    data object EnableEditMode: LanguageDetailsScreenIntent()
 }

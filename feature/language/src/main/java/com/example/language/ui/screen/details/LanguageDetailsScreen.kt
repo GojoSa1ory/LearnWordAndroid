@@ -34,7 +34,12 @@ fun LanguageDetailsScreen(
         topBar = {
             LanguageDetailsTopBar(
                 label = state.languageAndWords?.language
-                    ?.languageName ?: "Detail screen",
+                    ?.languageName ?: "",
+                isEditMode = state.isEditMode,
+                newLangName = state.newTitle,
+                onTitleChange = {
+                    model.setNewTitle(it)
+                },
                 navigateBack = { navigateBack() },
                 deleteAction = {
                     state.languageAndWords?.language?.let {
@@ -47,7 +52,14 @@ fun LanguageDetailsScreen(
                     if(!state.isError) {
                         navigateBack()
                     }
+                },
+                enableEditMode = {
+                    model.handleIntent(intent = LanguageDetailsScreenIntent.EnableEditMode)
+                },
+                saveChanges = {
+                    model.handleIntent(intent = LanguageDetailsScreenIntent.UpdateModule)
                 }
+
             )
         }
     ) { paddingValues ->

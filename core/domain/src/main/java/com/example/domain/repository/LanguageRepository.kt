@@ -8,7 +8,7 @@ interface LanguageRepository {
     suspend fun create(item: LanguageModel): Result<Boolean>
     fun read(): Result<Flow<List<LanguageModel>>>
     fun readWithWords(): Result<Flow<List<LanguageModel>>>
-    suspend fun readWithWordsById(id:Int): Result<LanguageAndWordsModel>
+    suspend fun readWithWordsById(id:Int): Result<Flow<LanguageAndWordsModel>>
     suspend fun update(item: LanguageModel): Result<Boolean>
     suspend fun delete(item: LanguageModel): Result<Boolean>
     fun search(req: String): Result<Flow<List<LanguageModel>>>

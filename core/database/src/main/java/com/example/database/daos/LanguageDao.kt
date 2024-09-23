@@ -33,7 +33,7 @@ interface LanguageDao: BaseCRUDao<LanguageEntity> {
         SELECT * FROM Languages
         WHERE id == :id
     """)
-    suspend fun readLanguageWithWordsById (id: Int): LanguageAndWords
+    fun readLanguageWithWordsById (id: Int): Flow<LanguageAndWords>
 
     @Query("DELETE FROM Words WHERE lang_id_fk = :languageId")
     suspend fun deleteWordsByLanguage(languageId: Int)

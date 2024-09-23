@@ -5,6 +5,7 @@ import com.example.domain.usecase.language.DeleteLanguageUseCase
 import com.example.domain.usecase.language.GetLanguageAndWordsByIdUseCase
 import com.example.domain.usecase.language.GetLanguageUseCase
 import com.example.domain.usecase.language.SearchLangUseCase
+import com.example.domain.usecase.language.UpdateLanguageUseCase
 import com.example.domain.usecase.word.CreateWordUseCase
 import com.example.domain.usecase.word.DeleteWordUseCase
 import com.example.domain.usecase.word.GetWordWithLanguageUseCase
@@ -25,5 +26,6 @@ val appModule = module {
     factory { GetLanguageAndWordsByIdUseCase(get()) }
     factory { DeleteLanguageUseCase(get()) }
     factory { SearchLangUseCase(get()) }
+    factory { UpdateLanguageUseCase(get()) }
 
 }
